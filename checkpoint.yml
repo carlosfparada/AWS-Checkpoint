@@ -1,0 +1,6 @@
+- name: AWS RHEL deployment roles
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - checkpoint_policy_rules
