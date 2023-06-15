@@ -4,4 +4,3 @@
   gather_facts: no
   roles:
     - aws_checkpoint_undeploy
-  
