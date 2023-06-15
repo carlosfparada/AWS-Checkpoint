@@ -16,8 +16,8 @@ ec2_sg_openports:
   - 443
   - 22
 # AMI
-ec2_image_name: RHEL-8.6.0_HVM-*x86_64*
-#ec2_image_name: Check Point CloudGuard IaaS GW PAYG-NGTX R81.20-631.1291-5c2a3811-4da1-49e0-a2f9-b9a369548106
+#ec2_image_name: RHEL-8.6.0_HVM-*x86_64*
+ec2_image_name: Check Point CloudGuard IaaS GW PAYG-NGTX R81.20-631.1291-5c2a3811-4da1-49e0-a2f9-b9a369548106
 #ec2_image_name: ami-07662d6765aef154e
 # Flavour 
 ec2_flavor_name: t2.micro
