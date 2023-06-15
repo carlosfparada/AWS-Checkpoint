@@ -3,5 +3,5 @@
   connection: local
   gather_facts: no
   roles:
-    - aws_rhel_deploy
+    - aws_checkpoint_deploy
   
