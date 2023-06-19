@@ -1,53 +1,71 @@
 ---
 
-- name: Include vault quay.io credentials
-  ansible.builtin.include_vars: ../vaults/rh_subs-vault.yml
+# Gather Facts
+- name: Query host objects
+  check_point.mgmt.cp_mgmt_host_facts:
+    details_level: full
+    #details_level: standard
+  ignore_errors: yes
+  register: _hosts
 
-- name: Attach Red Hat subscription
-  community.general.redhat_subscription:
+- name: Query default access rule
+  check_point.mgmt.cp_mgmt_access_rule_facts:
+    details_level: full
+    #details_level: standard
+    layer: "{{layer}}"
+    name: "Cleanup rule"
+  ignore_errors: yes
+  register: _accessrules
+
+- name: Query access rules
+  check_point.mgmt.cp_mgmt_access_rule_facts:
+    details_level: full
+    #details_level: standard
+    layer: "{{layer}}"
+    name: "{{item.name}}"
+  loop: "{{checkpoint_fw_rules}}"
+  ignore_errors: yes
+  register: _accessrules
+
+
+
+
+# Policy Rules
+- name: Create source hosts objects
+  check_point.mgmt.cp_mgmt_host:
+    name: "{{item.1.name}}"
     state: present
-    username: rh-ee-cparada
-    password: "{{ subscription_pass }}"
-    pool_ids: "{{ rh_subs_pool_id }}"
+    ip_address: "{{item.1.ipv4}}"
+    ignore_warnings: true
+    auto_publish_session: yes
+  with_subelements:
+  - "{{checkpoint_fw_rules}}"
+  - src.addresses
 
-- name: Install Software
-  ansible.builtin.dnf:
-    name: "{{ packages }}"
+- name: Create destination hosts objects
+  check_point.mgmt.cp_mgmt_host:
+    name: "{{item.1.name}}"
     state: present
-  vars:
-    packages:
-      - firewalld
-      - httpd
-      - php 
-      - php-common
-  become: yes
+    ip_address: "{{item.1.ipv4}}"
+    ignore_warnings: true
+    auto_publish_session: yes
+  with_subelements:
+  - "{{checkpoint_fw_rules}}"
+  - dest.addresses
 
-- name: Open port TCP 80
-  ansible.posix.firewalld:
-    port: http/tcp
-    permanent: yes
-    state: enabled
-  become: true
+- name: Create access rule
+  check_point.mgmt.cp_mgmt_access_rule:
+    layer: "{{layer}}"
+    state: present
+    position: 1
+    name: "{{item.name}}"
+    source: "{{item.src.addresses | map(attribute='name') | list}}"
+    destination: "{{item.dest.addresses | map(attribute='name') | list}}"
+    service: "{{item.services}}"
+    action: "{{item.rule.action}}"
+    track:
+      type: log
+    auto_publish_session: yes
+  loop: "{{checkpoint_fw_rules}}"
 
-- name: Webpage template
-  ansible.builtin.template:
-    src: ../templates/webpage.html.j2
-    dest: /var/www/html/index.html
-    owner: apache
-    mode: "0644"
-  become: yes
 
-- name: Start firewalld
-  ansible.builtin.service:
-    name: firewalld
-    enabled: yes
-    state: restarted
-  become: true
-
-- name: Restart httpd server 
-  ansible.builtin.service: 
-    name: httpd
-    enabled: yes
-    state: restarted
-  become: yes
- 
