@@ -11,3 +11,45 @@ ansible_connection: ssh
 
 # checkpoint
 checkpoint_vm: checkpoint-1
+
+# checkpoint
+layer: Network
+checkpoint_fw_rules:
+  - name: rule_C
+    src:
+      addresses:
+        - name: "inside_host_D"
+          ipv4: "10.10.2.3"
+    dest:
+      addresses:
+        - name: "pub_host_A"
+          type: host
+          ipv4: "7.7.7.1"
+        - name: "pub_host_B"
+          type: host
+          ipv4: "7.7.7.2"
+    services:
+      - http
+      - https
+    rule:
+      action: "Accept"
+  - name: rule_D
+    inout: in
+    src:
+      addresses:
+        - name: "pub_host_E"
+          type: host
+          ipv4: "7.7.7.3"
+        - name: "pub_host_F"
+          type: host
+          ipv4: "7.7.7.4"
+    dest:
+      interface: "inside"
+      addresses:
+        - name: "inside_host_C"
+          ipv4: "10.10.2.4"
+    services:
+      - http
+      - https
+    rule:
+      action: "Accept"
