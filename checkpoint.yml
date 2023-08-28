@@ -1,7 +1,7 @@
 ---
 
 - name: Firewalls Checkpoint
-  hosts: 54.198.192.231 # all
+  hosts: all
   connection: httpapi
   gather_facts: no
 
