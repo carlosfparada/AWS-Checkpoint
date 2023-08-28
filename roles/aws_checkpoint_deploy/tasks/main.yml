@@ -63,11 +63,11 @@
     filters:
       name: "{{ ec2_ckp_image_name }}"
     region: "{{ ec2_vpc_region }}"
-  register: ami_find
+  register: ami_ckp_find
 
 - name: Create Checkpoint instance
   amazon.aws.ec2_instance:
-    image_id: "{{ ami_find.images[-1].image_id | default('') }}"
+    image_id: "{{ ami_ckp_find.images[-1].image_id | default('') }}"
     instance_type: "{{ ec2_ckp_flavor_name }}"
     security_group: "{{ ec2_sg_name }}"
     name: "{{ ec2_ckp_instance_name }}"
@@ -99,13 +99,13 @@
 - name: Get AMI by Name (Windows)
   amazon.aws.ec2_ami_info:
     filters:
-      name: "{{ ec2_ckp_image_name }}"
+      name: "{{ ec2_win_image_name }}"
     region: "{{ ec2_vpc_region }}"
-  register: ami_find
+  register: ami_win_find
 
 - name: Create Windows instance
   amazon.aws.ec2_instance:
-    image_id: "{{ ami_find.images[-1].image_id | default('') }}"
+    image_id: "{{ ami_win_find.images[-1].image_id | default('') }}"
     instance_type: "{{ ec2_win_flavor_name }}"
     security_group: "{{ ec2_sg_name }}"
     name: "{{ ec2_win_instance_name }}"
