@@ -58,7 +58,7 @@
       name: "{{ ec2_sg_name }}"
 
 # Checkpoint
-- name: Get AMI by Name
+- name: Get AMI by Name (Checkpoint)
   amazon.aws.ec2_ami_info:
     filters:
       name: "{{ ec2_ckp_image_name }}"
@@ -96,14 +96,14 @@
   delegate_to: localhost
 
 # Windows
-- name: Get AMI by Name
+- name: Get AMI by Name (Windows)
   amazon.aws.ec2_ami_info:
     filters:
       name: "{{ ec2_ckp_image_name }}"
     region: "{{ ec2_vpc_region }}"
   register: ami_find
 
-- name: Create Checkpoint instance
+- name: Create Windows instance
   amazon.aws.ec2_instance:
     image_id: "{{ ami_find.images[-1].image_id | default('') }}"
     instance_type: "{{ ec2_win_flavor_name }}"
