@@ -21,12 +21,12 @@
       "tag:name": "{{ ec2_rt_name }}"
   register: rtb
 
-- name: Terminate RHEL instance
+- name: Terminate Checkpoint instance
   amazon.aws.ec2_instance:
     state: absent
     region: "{{ ec2_vpc_region }}"
     filters:
-      "tag:name": "{{ ec2_instance_name }}"
+      "tag:name": "{{ ec2_chp_instance_name }}"
 
 - name: Delete Security Group
   amazon.aws.ec2_group:
