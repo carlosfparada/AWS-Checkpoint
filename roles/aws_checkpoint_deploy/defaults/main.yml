@@ -31,7 +31,7 @@ ec2_ckp_instance_name: checkpoint-1
 
 # Windows - SmartConsole
 # AMI
-ec2_win_image_name: windows
+ec2_win_image_name: Windows_Server-2022-English-Full-Base-2023.08.10
 # Flavour 
 ec2_win_flavor_name: t2.micro
 # Disk
