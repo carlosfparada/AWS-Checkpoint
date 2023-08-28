@@ -15,6 +15,7 @@
     vpc_id: "{{ vpc.vpc.id }}"
     cidr: "{{ ec2_subnet_cidr }}"
     region: "{{ ec2_vpc_region }}"
+    availability_zone: "{{ ec2_vpc_az }}"
     state: present
     tags:
       name: "{{ ec2_subnet_name }}"
@@ -43,7 +44,7 @@
         gateway_id: "{{ igw.gateway_id }}"
 
 - name: Create Security Group
-  amazon.aws.ec2_group:
+  amazon.aws.ec2_security_group:
     name: "{{ ec2_sg_name }}"
     description: Allow all on ports
     state: present
@@ -73,6 +74,7 @@
     name: "{{ ec2_ckp_instance_name }}"
     key_name: "{{ ec2_ckp_key_name }}"
     region: "{{ ec2_vpc_region }}"
+    availability_zone: "{{ ec2_vpc_az }}"
     vpc_subnet_id: "{{ subnet.subnet.id }}"
     network:
       assign_public_ip: true
@@ -90,10 +92,10 @@
   ansible.builtin.debug:
     msg: "Instance DNS name is: {{ ec2_instance.instances[0].public_dns_name }} with IP address {{ ec2_instance.instances[0].public_ip_address }}"
 
-- name: Sleep for 30 seconds and continue with play
-  wait_for:
-    timeout: 30
-  delegate_to: localhost
+# - name: Sleep for 30 seconds and continue with play
+#   wait_for:
+#     timeout: 30
+#   delegate_to: localhost
 
 # Windows
 - name: Get AMI by Name (Windows)
@@ -101,6 +103,7 @@
     filters:
       name: "{{ ec2_win_image_name }}"
     region: "{{ ec2_vpc_region }}"
+    availability_zone: "{{ ec2_vpc_az }}"
   register: ami_win_find
 
 - name: Create Windows instance
@@ -111,16 +114,12 @@
     name: "{{ ec2_win_instance_name }}"
     key_name: "{{ ec2_win_key_name }}"
     region: "{{ ec2_vpc_region }}"
+    availability_zone: "{{ ec2_vpc_az }}"
     vpc_subnet_id: "{{ subnet.subnet.id }}"
     network:
       assign_public_ip: true
     tags:
       name: "{{ ec2_win_instance_name }}"
-    # volumes:
-    #   - device_name: "{{ ec2_win_ebs_name | default('/dev/sda1', true) }}"
-    #     ebs:
-    #       volume_size: "{{ ec2_win_disk_size | default(20, true) }}"
-    #       delete_on_termination: true
     state: running
   register: ec2_instance
 
