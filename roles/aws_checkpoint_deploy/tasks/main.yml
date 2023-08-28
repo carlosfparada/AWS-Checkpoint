@@ -74,7 +74,6 @@
     name: "{{ ec2_ckp_instance_name }}"
     key_name: "{{ ec2_ckp_key_name }}"
     region: "{{ ec2_vpc_region }}"
-    availability_zone: "{{ ec2_vpc_az }}"
     vpc_subnet_id: "{{ subnet.subnet.id }}"
     network:
       assign_public_ip: true
@@ -114,7 +113,6 @@
     name: "{{ ec2_win_instance_name }}"
     key_name: "{{ ec2_win_key_name }}"
     region: "{{ ec2_vpc_region }}"
-    availability_zone: "{{ ec2_vpc_az }}"
     vpc_subnet_id: "{{ subnet.subnet.id }}"
     network:
       assign_public_ip: true
