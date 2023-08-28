@@ -41,3 +41,4 @@ ec2_win_flavor_name: t2.micro
 ec2_win_key_name: "KeyPair-Virginia"
 # Instance
 ec2_win_instance_name: windows-1
+
