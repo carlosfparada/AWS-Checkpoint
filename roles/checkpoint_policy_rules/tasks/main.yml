@@ -27,9 +27,6 @@
   ignore_errors: yes
   register: _accessrules
 
-
-
-
 # Policy Rules
 - name: Create source hosts objects
   check_point.mgmt.cp_mgmt_host:
