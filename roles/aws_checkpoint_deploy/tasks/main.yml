@@ -102,7 +102,6 @@
     filters:
       name: "{{ ec2_win_image_name }}"
     region: "{{ ec2_vpc_region }}"
-    availability_zone: "{{ ec2_vpc_az }}"
   register: ami_win_find
 
 - name: Create Windows instance
