@@ -16,6 +16,7 @@ ec2_sg_openports:
   - 80
   - 443
   - 22
+  - 3389
 
 # Checkpoint
 # AMI
@@ -34,7 +35,7 @@ ec2_ckp_instance_name: checkpoint-1
 # AMI
 ec2_win_image_name: Windows_Server-2022-English-Full-Base-2023.08.10
 # Flavour 
-ec2_win_flavor_name: t2.micro
+ec2_win_flavor_name: t3.large
 # Disk
 # ec2_win_disk_size: 20
 # ec2_win_ebs_name: /dev/sda1
