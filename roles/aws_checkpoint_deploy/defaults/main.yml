@@ -22,7 +22,8 @@ ec2_sg_openports:
 
 # Checkpoint
 # AMI
-ec2_ckp_image_name: Check Point CloudGuard IaaS GW PAYG-NGTX R81.20-631.1291-5c2a3811-4da1-49e0-a2f9-b9a369548106
+ec2_ckp_image_id: ami-00b38ce3072e20285
+ec2_ckp_image_name: "Check Point CloudGuard IaaS PAYG-NGTP R81.20-634.1725-5c2a3811-4da1-49e0-a2f9-b9a369548106"
 # Flavour 
 ec2_ckp_flavor_name: c5.large
 # Disk
