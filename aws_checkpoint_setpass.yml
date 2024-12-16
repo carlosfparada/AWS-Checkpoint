@@ -46,4 +46,4 @@
         #   - "{{ new_password }}" 
         # 'Verify new password':
         #   - "{{ new_password }}"
-    no_log: true # hide passwords on logs
+    no_log: false # hide passwords on logs
