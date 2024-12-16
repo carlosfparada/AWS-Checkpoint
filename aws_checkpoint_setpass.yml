@@ -34,10 +34,8 @@
         # New password:
         # Verify new password:
         # i-047b52cf6b7891b2c>
-        'i*\>':
+        'aaa':
           - set user admin password
-          - "{{ new_password }}" 
-          - "{{ new_password }}" 
           - "exit"
         'New password':
           - "{{ new_password }}" 
