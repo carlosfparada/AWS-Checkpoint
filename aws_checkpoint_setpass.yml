@@ -34,7 +34,7 @@
         # New password:
         # Verify new password:
         # i-047b52cf6b7891b2c>
-        'i-*>':
+        'i-.*>':
           - set clock
           - set user admin password
           - exit
