@@ -35,8 +35,8 @@
         # Verify new password:
         # i-047b52cf6b7891b2c>
         'i.*>':
-          - "set user admin password"
-          - exit
+          - "set user admin password\n"
+          - "exit\n"
         'New password':
           - "{{ new_password }}\n" 
         'Verify new password':
