@@ -36,6 +36,8 @@
         # i-047b52cf6b7891b2c>
         'i*\>':
           - set user admin password
+          - "{{ new_password }}" 
+          - "{{ new_password }}" 
           - "exit"
         'New password':
           - "{{ new_password }}" 
