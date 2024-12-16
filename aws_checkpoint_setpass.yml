@@ -38,8 +38,8 @@
         'i-.*>':
           - set user admin password
           - exit
-        'New password':
+        'New password:':
           - "{{ new_password }}" 
-        'Verify new password':
+        'Verify new password:':
           - "{{ new_password }}"
     no_log: false # hide passwords on logs
