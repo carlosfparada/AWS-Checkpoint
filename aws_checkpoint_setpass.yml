@@ -35,6 +35,8 @@
         # New password:
         # Verify new password:
         # i-047b52cf6b7891b2c>
+        # or
+        # "set user admin password-hash {{ new_password | password_hash('md5') }}" 
         'i-.*>':
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           # - set user admin password
