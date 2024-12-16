@@ -36,6 +36,8 @@
         # i-047b52cf6b7891b2c>
         'i-.*>':
           - show clock
+          - show clock
+          - show clock
           - set user admin password
           - exit
         'New password':
