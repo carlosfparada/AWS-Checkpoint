@@ -34,7 +34,7 @@
         # New password:
         # Verify new password:
         # i-047b52cf6b7891b2c>
-        'i.*>':
+        'i-02bcb32099ed097bb>':
           - "set user admin password"
           - exit
         'New password:':
