@@ -4,9 +4,9 @@ ec2_vpc_region: us-east-1
 ec2_vpc_cidr: 10.0.0.0/16
 ec2_vpc_az: us-east-1a
 # Subnet
-ec2_subnet_az: us-east-1a
 ec2_subnet_name: Subnet_CP
 ec2_subnet_cidr: 10.0.0.0/24
+ec2_subnet_az: us-east-1a
 # Subnet1
 ec2_subnet_name1: Subnet_CP_ENI1
 ec2_subnet_cidr1: 10.0.1.0/24
