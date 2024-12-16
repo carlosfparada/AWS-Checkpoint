@@ -35,6 +35,9 @@
         # New password:
         # Verify new password:
         # i-047b52cf6b7891b2c>
+
+        # "{{ 'testing' | md5 }}"
+        
         'i-.*>':
           - set user admin password
           - save config
