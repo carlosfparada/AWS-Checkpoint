@@ -38,7 +38,7 @@
           - "set user admin password"
           - exit
         'New password':
-          - "{{ new_password }}" 
+          - "{{ new_password }}\n" 
         'Verify new password':
-          - "{{ new_password }}"
+          - "{{ new_password }}\n"
     no_log: false # hide passwords on logs
