@@ -14,6 +14,20 @@
       "tag:name": "{{ ec2_subnet_name }}"
   register: subnet
 
+- name: Query Subnet 1
+  amazon.aws.ec2_vpc_subnet_info:
+    region: "{{ ec2_vpc_region }}"
+    filters:
+      "tag:Name": "{{ ec2_subnet_name1 }}"
+  register: subnet1
+
+- name: Query Subnet 2
+  amazon.aws.ec2_vpc_subnet_info:
+    region: "{{ ec2_vpc_region }}"
+    filters:
+      "tag:Name": "{{ ec2_subnet_name2 }}"
+  register: subnet2
+
 - name: Query ENI 1
   amazon.aws.ec2_eni_info:
     region: "{{ ec2_vpc_region }}"
@@ -27,7 +41,7 @@
     filters:
       "tag:Name": "{{ ec2_eni_name2 }}"
   register: eni2
-  
+
 - name: Query Route Tables
   amazon.aws.ec2_vpc_route_table_info:
     region: "{{ ec2_vpc_region }}"
