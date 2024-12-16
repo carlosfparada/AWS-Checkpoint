@@ -39,7 +39,7 @@
           - set user admin password
           - save config
           - exit
-        'password:':
+        'password':
           - "{{ new_password }}" 
           - "{{ new_password }}" 
         # 'New password:':
