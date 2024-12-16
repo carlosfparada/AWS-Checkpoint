@@ -80,13 +80,37 @@
       assign_public_ip: true
     tags:
       name: "{{ ec2_ckp_instance_name }}"
-    volumes:
-      - device_name: "{{ ec2_ckp_ebs_name | default('/dev/sda1', true) }}"
-        ebs:
-          volume_size: "{{ ec2_ckp_disk_size | default(20, true) }}"
-          delete_on_termination: true
+    # volumes:
+    #   - device_name: "{{ ec2_ckp_ebs_name | default('/dev/sda1', true) }}"
+    #     ebs:
+    #       volume_size: "{{ ec2_ckp_disk_size | default(20, true) }}"
+    #       delete_on_termination: true
     state: running
   register: ec2_checkpoint_instance
+
+- name: Create and Attach ENI 1
+  amazon.aws.ec2_eni:
+    name: "{{ ec2_eni_name1 }}"
+    region: "{{ ec2_vpc_region }}"
+    instance_id: "{{ ec2_checkpoint_instance.instances[0].instance_id }}"
+    device_index: 1
+    subnet_id: "{{ subnet1.subnet.id }}"
+    #security_groups: "{{ ec2_sg_name }}"
+    delete_on_termination: true
+    attached: true
+    state: present
+
+- name: Create and Attach ENI 2
+  amazon.aws.ec2_eni:
+    name: "{{ ec2_eni_name2 }}"
+    region: "{{ ec2_vpc_region }}"
+    instance_id: "{{ ec2_checkpoint_instance.instances[0].instance_id }}"
+    device_index: 2
+    subnet_id: "{{ subnet2.subnet.id }}"
+    #security_groups: "{{ ec2_sg_name }}"
+    delete_on_termination: true
+    attached: true
+    state: present
 
 - name: Print instance details
   ansible.builtin.debug:
