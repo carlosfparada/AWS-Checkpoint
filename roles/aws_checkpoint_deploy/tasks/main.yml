@@ -124,7 +124,7 @@
 
 - name: Print instance details
   ansible.builtin.debug:
-    msg: "Instance DNS name is: {{ ec2_win_instance.instances[0].public_dns_name }} with IP address {{ ec2_win_instance.instances[0].public_ip_address }}"
+    msg: "Instance DNS name is: {{ ec2_windows_instance.instances[0].public_dns_name }} with IP address {{ ec2_windows_instance.instances[0].public_ip_address }}"
 
 # Wait for boot up
 - name: Wait until Checkpoint boots up
