@@ -34,19 +34,11 @@
         # New password:
         # Verify new password:
         # i-047b52cf6b7891b2c>
-
-
-        # admin@PA-VM> configure
-        # admin@PA-VM# set mgt-config users admin password <password>
-        # Enter password   : 
-        # Confirm password : 
-        # admin@PA-VM# exit
-        # admin@PA-VM> exit
         'i-':
           - "set user admin password"
           - exit
-        'New password':
+        'New password:':
           - "{{ new_password }}" 
-        'Verify new password':
+        'Verify new password:':
           - "{{ new_password }}"
     no_log: true # hide passwords on logs
