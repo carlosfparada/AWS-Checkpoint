@@ -35,7 +35,7 @@
         # Verify new password:
         # i-047b52cf6b7891b2c>
         'i-.*>':
-          - set clock
+          - show clock
           - set user admin password
           - exit
         'New password':
