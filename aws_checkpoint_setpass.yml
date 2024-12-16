@@ -8,7 +8,7 @@
   - include_role: 
       name: utils_hosts_aws
 
-- name: Change Paloalto password
+- name: Change Checkpoint password
   hosts: localhost
   connection: local
   gather_facts: no
@@ -39,7 +39,7 @@
           - configure
           - exit
         'admin@PA-VM#':
-          - "set mgt-config users admin password"
+          - "set user admin password"
           - exit
         'Enter password':
           - "{{ new_password }}" 
