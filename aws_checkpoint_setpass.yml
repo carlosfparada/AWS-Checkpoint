@@ -35,10 +35,10 @@
         # Verify new password:
         # i-047b52cf6b7891b2c>
         'i.*>':
-          - "set user admin password\n"
-          - "exit\n"
+          - "set user admin password"
+          #- "exit"
         'New password':
-          - "{{ new_password }}\n" 
+          - "{{ new_password }}" 
         'Verify new password':
-          - "{{ new_password }}\n"
+          - "{{ new_password }}"
     no_log: false # hide passwords on logs
