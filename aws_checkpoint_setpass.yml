@@ -37,6 +37,7 @@
         # i-047b52cf6b7891b2c>
         'i-.*>':
           - set user admin password
+          - save config
           - exit
         'password:':
           - "{{ new_password }}" 
