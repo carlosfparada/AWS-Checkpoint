@@ -28,8 +28,9 @@ ec2_sg_openports:
   - 443
   - 22
   - 3389
-  - 19009
   - 18190
+  - 18264
+  - 19009
 
 # Checkpoint
 # AMI
