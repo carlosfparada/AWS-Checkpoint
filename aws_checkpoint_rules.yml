@@ -1,7 +1,15 @@
 ---
 
+- name: Get nodes from Inventory and add to Groups
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - include_role: 
+      name: utils_hosts_aws
+
 - name: Firewalls Checkpoint
-  hosts: all
+  hosts: "{{ groups['checkpoint'][0] }}"
   connection: httpapi
   gather_facts: no
 
