@@ -1,5 +1,11 @@
 ---
 
+# Checkpoint
+ansible_network_os: check_point.mgmt.checkpoint
+ansible_connection: httpapi
+ansible_httpapi_use_ssl: yes
+ansible_httpapi_validate_certs: no
+
 # checkpoint
 layer: Network
 checkpoint_fw_rules:
