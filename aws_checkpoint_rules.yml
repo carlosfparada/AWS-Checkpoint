@@ -11,6 +11,10 @@
 - name: Firewalls Checkpoint
   hosts: "{{ groups['checkpoint'][0] }}"
   connection: httpapi
+  ansible_network_os: check_point.mgmt.checkpoint
+  ansible_connection: httpapi
+  ansible_httpapi_use_ssl: yes
+  ansible_httpapi_validate_certs: no
   gather_facts: no
   roles:
     - checkpoint_policy_rules
