@@ -40,6 +40,8 @@
         'i-.*>':
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           # - set user admin password
+          - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
+          - api restart
           - save config
           - exit
         # 'New password':
