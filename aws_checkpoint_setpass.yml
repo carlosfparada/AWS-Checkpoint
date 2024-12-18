@@ -53,6 +53,6 @@
         #   - "{{ new_password }}" 
         # 'Verify new password':
         #   - "{{ new_password }}"
-        'Enter expert password':
+        '(?i)Enter expert password':
           - "{{ new_password }}" 
     no_log: false # hide passwords on logs
