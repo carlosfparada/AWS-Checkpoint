@@ -37,16 +37,16 @@
         # i-047b52cf6b7891b2c>
         # or
         # "set user admin password-hash {{ new_password | password_hash('md5') }}" 
-        "i-.*>": 
+        "^i-.*>$":
           # - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           # # - set user admin password
           # - "set expert-password-hash {{ new_password | password_hash('md5') }}"
           - expert
           - save config
           - exit
-        # "Expert@":
-        #   - "config_system --config-string \"hostname=myhost&domainname=somedomain.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=aaaa&install_security_gw=true&gateway_daip=false&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&maintenance_hash=123456\""
-        #   - exit
+        "Expert@":
+          - "config_system --config-string \"hostname=myhost&domainname=somedomain.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=aaaa&install_security_gw=true&gateway_daip=false&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&maintenance_hash=123456\""
+          - exit
           # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
           # - api restart
         # 'New password':
