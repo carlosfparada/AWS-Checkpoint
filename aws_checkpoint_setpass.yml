@@ -50,3 +50,27 @@
           # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
           # - api restart
     no_log: false # hide passwords on logs
+
+  - name: Wait until Checkpoint boots up
+    wait_for:
+      port: 22
+      state: started
+      timeout: 1800
+      delay: 10
+      host: "{{ groups['checkpoint'][0] }}"  
+
+  - name: Sleep for 10 seconds and continue with play
+    wait_for:
+      timeout: 10
+    delegate_to: localhost
+
+      # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  - name: Set admin initial password ans config system
+  ansible.builtin.expect:
+    command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+    # echo: true
+    responses:
+      "checkpoint-1>":
+        - save config
+        - exit
+  no_log: false # hide passwords on logs
