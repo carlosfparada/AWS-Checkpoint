@@ -8,7 +8,7 @@
   - include_role: 
       name: utils_hosts_aws
 
-- name: Change Checkpoint password
+- name: Setup Checkpoint
   hosts: localhost
   connection: local
   gather_facts: no
@@ -72,3 +72,25 @@
           - save config
           - exit
     no_log: false # hide passwords on logs
+
+- name: Setup Checkpoint
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files: vars/main.yml
+  vars:
+    become: True
+    become_method: runas
+    # ansible_become_user: user
+    # ansible_become_pass: password
+  tasks:
+    
+
+    - name: Install file
+      ansible.windows.win_package:
+        path: C:\inst\SumatraPDF-3.5.2-64-install.exe
+        arguments: /install /passive /norestart
+      vars:
+        ansible_become_method: runas
+        ansible_become_user: user
+        ansible_become_pass: password
