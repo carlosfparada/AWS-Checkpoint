@@ -25,7 +25,7 @@
       mode: '0600'
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Set admin initial password
+  - name: Set admin initial password ans config system
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       # echo: true
@@ -37,8 +37,9 @@
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           - "set expert-password-hash {{ new_password | password_hash('md5') }}"
           - "set grub2-password-hash {{ new_password | password_hash('md5') }}"
-          - "config_system --config-string \"hostname=myhost&domainname=somedomain.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=aaaa&install_security_gw=true&gateway_daip=false&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&maintenance_hash=123456\""
+          - "config_system --config-string \"hostname=checkpoint-1&domainname=ansible.redhat.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=123456&install_security_gw=true&gateway_daip=true&install_ppak=true&gateway_cluster_member=true&install_security_managment=true&maintenance_hash=123456\""
           # - expert
+        "checkpoint-1>":
           - save config
           - exit
         # "(?i)Enter expert password":
