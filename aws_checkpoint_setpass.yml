@@ -38,9 +38,9 @@
         # or
         # "set user admin password-hash {{ new_password | password_hash('md5') }}" 
         "i-.*>":
-          - "set user admin password-hash {{ new_password | password_hash('md5') }}"
-          # - set user admin password
-          - "set expert-password-hash {{ new_password | password_hash('md5') }}"
+          # - "set user admin password-hash {{ new_password | password_hash('md5') }}"
+          # # - set user admin password
+          # - "set expert-password-hash {{ new_password | password_hash('md5') }}"
           - expert
           - save config
           - exit
