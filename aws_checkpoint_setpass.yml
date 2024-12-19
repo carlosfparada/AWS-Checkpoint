@@ -51,7 +51,7 @@
           # - api restart
     no_log: false # hide passwords on logs
 
-  - name: Wait until Checkpoint boots up
+  - name: Wait until Checkpoint comes back
     wait_for:
       port: 22
       state: started
