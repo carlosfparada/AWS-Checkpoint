@@ -28,7 +28,7 @@
   - name: Set admin initial password
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-      echo: true
+      # echo: true
       responses:
         # In order to configure your system, please access the Web UI and finish the First Time Wizard.
         # i-047b52cf6b7891b2c> set user admin password
