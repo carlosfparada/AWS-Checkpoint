@@ -84,8 +84,8 @@
   tasks:
     - name: copying from server to disk
       ansible.windows.win_copy:
-        src: files/Check_Point_R81.20_T631_SmartConsole
-        dest: C:\inst\
+        src: files/Check_Point_R81.20_T631_SmartConsole.exe
+        dest: C:\
         remote_src: yes
         force: True
       become: True
