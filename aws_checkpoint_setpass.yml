@@ -69,29 +69,32 @@
       # echo: true
       responses:
         "checkpoint-1>":
-          - save config
+          # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
+          # - "mgmt_cli -r true set api-settings accepted-api-calls-from "All IP addresses" --domain 'System Data'"
+          # - api restart
+        - save config
           - exit
     no_log: false # hide passwords on logs
 
-- name: Setup Windows
-  hosts: groups['windows'][0]
-  connection: local
-  gather_facts: no
-  vars_files: vars/main.yml
-  vars:
-    # ansible_become_user: user
-    # ansible_become_pass: password
-  tasks:
-    - name: Copying from Ansible to Windows local disk
-      ansible.windows.win_copy:
-        src: files/Check_Point_R81.20_T631_SmartConsole.exe
-        dest: C:\
-        remote_src: yes
-        force: True
-      become: True
-      become_method: runas
+# - name: Setup Windows
+#   hosts: groups['windows'][0]
+#   connection: local
+#   gather_facts: no
+#   vars_files: vars/main.yml
+#   vars:
+#     # ansible_become_user: user
+#     # ansible_become_pass: password
+#   tasks:
+#     - name: Copying from Ansible to Windows local disk
+#       ansible.windows.win_copy:
+#         src: files/Check_Point_R81.20_T631_SmartConsole.exe
+#         dest: C:\
+#         remote_src: yes
+#         force: True
+#       become: True
+#       become_method: runas
 
-    - name: Install exe file
-      ansible.windows.win_package:
-        path: C:\Check_Point_R81.20_T631_SmartConsole.exe
-        arguments: /install /passive /norestart
+#     - name: Install exe file
+#       ansible.windows.win_package:
+#         path: C:\Check_Point_R81.20_T631_SmartConsole.exe
+#         arguments: /install /passive /norestart
