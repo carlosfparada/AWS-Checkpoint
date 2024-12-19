@@ -25,7 +25,7 @@
       mode: '0600'
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Set admin initial password ans config system
+  - name: Set admin initial password and config system
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       # echo: true
@@ -65,12 +65,12 @@
     delegate_to: localhost
 
       # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Set admin initial password ans config system
-  ansible.builtin.expect:
-    command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-    # echo: true
-    responses:
-      "checkpoint-1>":
-        - save config
-        - exit
-  no_log: false # hide passwords on logs
+  - name: Save configs
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      # echo: true
+      responses:
+        "checkpoint-1>":
+          - save config
+          - exit
+    no_log: false # hide passwords on logs
