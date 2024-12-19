@@ -42,7 +42,7 @@
 
           # - config_system --config-string "admin_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'&iface=eth0&ipstat_v4=manually&ipaddr_v4=10.0.0.116&masklen_v4=255.255.255.0&default_gw_v4=10.0.0.1&ipstat_v6=off&hostname=checkpoint-1&domainname=ansible.redhat.com&primary=10.0.0.2&timezone='Europe/Lisbon'&install_security_managment=true&&mgmt_admin_radio=gaia_admin&install_security_gw=true&gateway_cluster_member=false&mgmt_gui_clients_radio=any&reboot_if_required=true&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
           # - exit
-          # - "config_system --config-string \"hostname=myhost&domainname=somedomain.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=aaaa&install_security_gw=true&gateway_daip=false&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&maintenance_hash=123456\""
+          - "config_system --config-string \"hostname=myhost&domainname=somedomain.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=aaaa&install_security_gw=true&gateway_daip=false&install_security_managment=true&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
         # "(?i)Enter expert password":
         #   - "{{ new_password }}" 
         # "Expert":
