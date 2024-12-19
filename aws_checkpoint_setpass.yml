@@ -33,13 +33,14 @@
         # In order to configure your system, please access the Web UI and finish the First Time Wizard.
         # set user admin password
         # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
-        'i-.*>':
+        "i-.*>":
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           - "set expert-password-hash {{ new_password | password_hash('md5') }}"
+          - "set grub2-password-hash {{ new_password | password_hash('md5') }}"
           - expert
           - save config
           - exit
-        'Enter expert password':
+        "(?i)Enter expert password":
           - "{{ new_password }}" 
         "Expert":
           - "config_system --config-string \"hostname=myhost&domainname=somedomain.com&timezone='America/Indiana/Indianapolis'&ftw_sic_key=aaaa&install_security_gw=true&gateway_daip=false&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&maintenance_hash=123456\""
