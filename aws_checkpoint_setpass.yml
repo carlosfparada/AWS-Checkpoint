@@ -39,7 +39,8 @@
         "i-.*>":
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           - "set expert-password-hash {{ new_password | password_hash('md5') }}"
-          - "set grub2-password-hash {{ new_password | password_hash('sha512') }}"
+          #- "set grub2-password-hash {{ new_password | password_hash('sha512') }}"
+          - "set grub2-password-hash grub.pbkdf2.sha512.10000.F8781604CB68554AFD2058F78C77D888CF4E4F6FA3DB28099F1C8A29A4A0C9120DDA8DC40EDED72B8644023D2341A760D1B435AD68CFB832371070DE4CC82F65.C00297338E54F194E51B310D61ECEAD651BCD15EDFE488166B87ACC21DD600FC44C83F8F65BDC81CA24F39B64F66D8BBC033BBBE3FBC96B3A96C78B391E7DDB2"
           - save config
           - exit     
         "checkpoint-1>":
@@ -48,8 +49,6 @@
           - "set grub2-password-hash {{ new_password | password_hash('md5') }}"
           - save config
           - exit     
-
-          # grub.pbkdf2.sha512.10000.F8781604CB68554AFD2058F78C77D888CF4E4F6FA3DB28099F1C8A29A4A0C9120DDA8DC40EDED72B8644023D2341A760D1B435AD68CFB832371070DE4CC82F65.C00297338E54F194E51B310D61ECEAD651BCD15EDFE488166B87ACC21DD600FC44C83F8F65BDC81CA24F39B64F66D8BBC033BBBE3FBC96B3A96C78B391E7DDB2
 
           # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&primary=10.0.0.2&default_gw_v4=10.0.0.1&timezone='Europe/Lisbon'&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
 
