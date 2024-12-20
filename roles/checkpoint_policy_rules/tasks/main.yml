@@ -27,15 +27,13 @@
   ignore_errors: yes
   register: _accessrules
 
-- name: Query access rules
-  check_point.mgmt.cp_mgmt_access_rule_facts:
-    details_level: full
-    #details_level: standard
-    layer: "{{layer}}"
-    name: ""
-  loop: "{{checkpoint_fw_rules}}"
-  ignore_errors: yes
-  register: _accessrules
+- name: Retrieve all access rules
+  check_point.mgmt.cp_mgmt_access_layer_facts:
+    name: "Network"
+    details_level: "full"
+    auto_publish_session: false
+    limit: 500
+  register: access_layer_facts
 
 # Policy Rules
 - name: Create source hosts objects
