@@ -29,8 +29,12 @@
 
 - name: Query all rulebase
   check_point.mgmt.cp_mgmt_run_script:
-    script_name: "Fetch Access Rules"
-    script: "mgmt show access-rulebase name Network"
+    script_name: "Fetch all Access Rules"
+    script: ls -l /
+#    script: "mgmt show access-rulebase name Network"
+    targets:
+    - checkpoint-1
+
   register: access_rulebase
 
 # Policy Rules
