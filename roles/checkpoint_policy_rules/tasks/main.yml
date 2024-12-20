@@ -31,8 +31,6 @@
   check_point.mgmt.cp_mgmt_access_layer_facts:
     name: "Network"
     details_level: "full"
-    auto_publish_session: false
-    limit: 500
   register: access_layer_facts
 
 # Policy Rules
