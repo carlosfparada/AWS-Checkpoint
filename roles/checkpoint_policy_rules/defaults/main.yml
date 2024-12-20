@@ -9,7 +9,7 @@ ansible_httpapi_validate_certs: no
 # checkpoint
 layer: Network
 checkpoint_fw_rules:
-  - name: rule_C
+  - name: rule_A
     src:
       addresses:
         - name: "inside_host_D"
@@ -27,7 +27,7 @@ checkpoint_fw_rules:
       - https
     rule:
       action: "Accept"
-  - name: rule_D
+  - name: rule_B
     inout: in
     src:
       addresses:
