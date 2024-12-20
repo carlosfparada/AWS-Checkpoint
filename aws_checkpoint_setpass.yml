@@ -25,7 +25,7 @@
       mode: '0600'
 
   - debug:
-      msg: "set grub2-password-hash {{ new_password | password_hash('sha512') | hex }}"
+      msg: "set grub2-password-hash bintohex({{ new_password | password_hash('sha512') }})"
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
