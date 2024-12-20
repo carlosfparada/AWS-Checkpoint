@@ -70,6 +70,19 @@
           # - api restart
     no_log: false # hide passwords on logs
 
+  # - name: Wait until First Time Configuration Wizard completes
+  #   ansible.builtin.stat:
+  #     path: /etc/.wizard_accepted
+  #   until: file_data.stat.exists
+  #   reties: 50
+  #   delay: 10
+
+  # - command: shutdown -r now
+
+  
+
+
+
   # - name: Wait until Checkpoint comes back
   #   wait_for:
   #     port: 22
