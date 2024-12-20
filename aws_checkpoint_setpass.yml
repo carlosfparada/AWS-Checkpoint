@@ -38,8 +38,13 @@
           - "set expert-password-hash {{ new_password | password_hash('md5') }}"
           - "set grub2-password-hash {{ new_password | password_hash('md5') }}"
           - save config
-          - exit          
-          # - expert
+          - exit     
+        "checkpoint-1>":
+          - "set user admin password-hash {{ new_password | password_hash('md5') }}"
+          - "set expert-password-hash {{ new_password | password_hash('md5') }}"
+          - "set grub2-password-hash {{ new_password | password_hash('md5') }}"
+          - save config
+          - exit     
 
           # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&primary=10.0.0.2&default_gw_v4=10.0.0.1&timezone='Europe/Lisbon'&admin_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
 
