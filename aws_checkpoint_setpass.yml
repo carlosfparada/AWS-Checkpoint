@@ -65,18 +65,18 @@
           # - api restart
     no_log: false # hide passwords on logs
 
-  - name: Wait until Checkpoint comes back
-    wait_for:
-      port: 22
-      state: started
-      timeout: 1800
-      delay: 10
-      host: "{{ groups['checkpoint'][0] }}"  
+  # - name: Wait until Checkpoint comes back
+  #   wait_for:
+  #     port: 22
+  #     state: started
+  #     timeout: 1800
+  #     delay: 10
+  #     host: "{{ groups['checkpoint'][0] }}"  
 
-  - name: Sleep for 10 seconds and continue with play
-    wait_for:
-      timeout: 10
-    delegate_to: localhost
+  # - name: Sleep for 10 seconds and continue with play
+  #   wait_for:
+  #     timeout: 10
+  #   delegate_to: localhost
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   # - name: Save configs
