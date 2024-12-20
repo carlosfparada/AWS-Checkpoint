@@ -30,9 +30,7 @@
 - name: Query all rulebase
   check_point.mgmt.cp_mgmt_run_script:
     script_name: "Fetch Access Rules"
-    script: |
-      #! /bin/bash
-      mgmt_cli show access-rulebase name Network
+    script: "mgmt_cli show access-rulebase name Network"
   register: access_rulebase
 
 # Policy Rules
