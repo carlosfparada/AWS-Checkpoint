@@ -25,7 +25,7 @@
       mode: '0600'
 
   - debug:
-      var: hostvars[groups['windows'][0]]
+      var: hostvars[groups['checkpoint'][0]]
 
   - set_fact:
       addressing:
