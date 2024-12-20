@@ -28,9 +28,9 @@
   register: _accessrules
 
 - name: Query all layer data
-  check_point.mgmt.cp_mgmt_access_layer_facts:
-    #name: "Network"
-    details_level: "full"
+  check_point.mgmt.cp_mgmt_access_rule_facts:
+    layer: "Network"       # Replace with your access layer name
+    details_level: "full" 
   register: access_layer_facts
 
 # Policy Rules
