@@ -32,7 +32,7 @@
     details_level: full
     #details_level: standard
     layer: "{{layer}}"
-    name: "*"
+    name: ""
   loop: "{{checkpoint_fw_rules}}"
   ignore_errors: yes
   register: _accessrules
