@@ -27,7 +27,7 @@
   ignore_errors: yes
   register: _accessrules
 
-- name: Query all layer data
+- name: Query all rulebase
   check_point.mgmt.cp_mgmt_run_script:
     script_name: "Fetch Access Rules"
     script: |
