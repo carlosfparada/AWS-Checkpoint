@@ -28,10 +28,12 @@
   register: _accessrules
 
 - name: Query all layer data
-  check_point.mgmt.cp_mgmt_access_rule_facts:
-    layer: "Network"       # Replace with your access layer name
-    details_level: "full" 
-  register: access_layer_facts
+  check_point.mgmt.cp_mgmt_run_script:
+    script_name: "Fetch Access Rules"
+    script: |
+      #! /bin/bash
+      mgmt_cli show access-rulebase name Network
+  register: access_rulebase
 
 # Policy Rules
 - name: Create source hosts objects
