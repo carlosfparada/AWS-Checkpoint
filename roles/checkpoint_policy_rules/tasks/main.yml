@@ -27,6 +27,10 @@
   ignore_errors: yes
   register: _accessrules
 
+- name: add-api-key
+  check_point.mgmt.cp_mgmt_add_api_key:
+    admin_name: admin
+
 - name: Query all rulebase
   check_point.mgmt.cp_mgmt_run_script:
     script_name: "Fetch all Access Rules"
