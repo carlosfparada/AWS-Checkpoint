@@ -36,7 +36,7 @@
         "i-.*>":
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           - "set expert-password-hash {{ new_password | password_hash('md5') }}"
-          #- "set grub2-password-hash {{ new_password | password_hash('md5') }}"
+          - "set grub2-password-hash {{ new_password | password_hash('sha512') }}"
           - save config
           - exit     
         "checkpoint-1>":
