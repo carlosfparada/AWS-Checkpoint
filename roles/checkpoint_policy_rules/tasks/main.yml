@@ -31,7 +31,7 @@
   check_point.mgmt.cp_mgmt_access_rule_facts:
     details_level: full
     #details_level: standard
-    layer: "{{layer}}"
+    name: "{{layer}}"
     # name: "{{item.name}}"
   ignore_errors: yes
   register: _accessrules
