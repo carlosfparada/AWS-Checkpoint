@@ -27,7 +27,7 @@
   ignore_errors: yes
   register: _accessrules
 
-- name: Retrieve all access rules
+- name: Query all layer data
   check_point.mgmt.cp_mgmt_access_layer_facts:
     #name: "Network"
     details_level: "full"
