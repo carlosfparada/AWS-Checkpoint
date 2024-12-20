@@ -138,34 +138,34 @@
   ansible.builtin.debug:
     msg: "Instance DNS name is: {{ ec2_checkpoint_instance.instances[0].public_dns_name }} with IP address {{ ec2_checkpoint_instance.instances[0].public_ip_address }}"
 
-# # Windows
-# - name: Get AMI by Name (Windows Server)
-#   amazon.aws.ec2_ami_info:
-#     filters:
-#       name: "{{ ec2_win_image_name }}"
-#     region: "{{ ec2_vpc_region }}"
-#   register: ami_win_find
+# Windows
+- name: Get AMI by Name (Windows Server)
+  amazon.aws.ec2_ami_info:
+    filters:
+      name: "{{ ec2_win_image_name }}"
+    region: "{{ ec2_vpc_region }}"
+  register: ami_win_find
 
-# - name: Create Windows Server instance
-#   amazon.aws.ec2_instance:
-#     #image_id: "{{ ami_win_find.images[-1].image_id | default('') }}"
-#     image_id: "{{ ec2_win_image_id }}"
-#     instance_type: "{{ ec2_win_flavor_name }}"
-#     security_group: "{{ ec2_sg_name }}"
-#     name: "{{ ec2_win_instance_name }}"
-#     key_name: "{{ ec2_win_key_name }}"
-#     region: "{{ ec2_vpc_region }}"
-#     vpc_subnet_id: "{{ subnet.subnet.id }}"
-#     network:
-#       assign_public_ip: true
-#     tags:
-#       name: "{{ ec2_win_instance_name }}"
-#     state: running
-#   register: ec2_windows_instance
+- name: Create Windows Server instance
+  amazon.aws.ec2_instance:
+    #image_id: "{{ ami_win_find.images[-1].image_id | default('') }}"
+    image_id: "{{ ec2_win_image_id }}"
+    instance_type: "{{ ec2_win_flavor_name }}"
+    security_group: "{{ ec2_sg_name }}"
+    name: "{{ ec2_win_instance_name }}"
+    key_name: "{{ ec2_win_key_name }}"
+    region: "{{ ec2_vpc_region }}"
+    vpc_subnet_id: "{{ subnet.subnet.id }}"
+    network:
+      assign_public_ip: true
+    tags:
+      name: "{{ ec2_win_instance_name }}"
+    state: running
+  register: ec2_windows_instance
 
-# - name: Print instance details
-#   ansible.builtin.debug:
-#     msg: "Instance DNS name is: {{ ec2_windows_instance.instances[0].public_dns_name }} with IP address {{ ec2_windows_instance.instances[0].public_ip_address }}"
+- name: Print instance details
+  ansible.builtin.debug:
+    msg: "Instance DNS name is: {{ ec2_windows_instance.instances[0].public_dns_name }} with IP address {{ ec2_windows_instance.instances[0].public_ip_address }}"
 
 # Wait for boot up
 - name: Wait until Checkpoint boots up
@@ -176,16 +176,16 @@
     delay: 30
     host: "{{ ec2_checkpoint_instance.instances[0].public_dns_name }}"
   
-# # Wait for boot up
-# - name: Wait until Windows boots up
-#   wait_for:
-#     port: 3389
-#     state: started
-#     timeout: 1800
-#     delay: 30
-#     host: "{{ ec2_windows_instance.instances[0].public_dns_name }}"
+# Wait for boot up
+- name: Wait until Windows boots up
+  wait_for:
+    port: 3389
+    state: started
+    timeout: 1800
+    delay: 30
+    host: "{{ ec2_windows_instance.instances[0].public_dns_name }}"
 
-# - name: Sleep for 120 seconds and continue with play
-#   wait_for:
-#     timeout: 120
-#   delegate_to: localhost
+- name: Sleep for 120 seconds and continue with play
+  wait_for:
+    timeout: 120
+  delegate_to: localhost
