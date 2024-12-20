@@ -31,7 +31,7 @@
   check_point.mgmt.cp_mgmt_run_script:
     script_name: "Fetch all Access Rules"
     # script: ls -l /
-    script: "mgmt show access-rulebase name Network"
+    script: "mgmt_cli show access-rulebase name Network"
     targets:
     - i-0001bcfe6c8f1d80a
 
