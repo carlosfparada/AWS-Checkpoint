@@ -33,7 +33,7 @@
     # script: ls -l /
     script: "mgmt_cli show access-rulebase name Network"
     targets:
-    - "i-0001bcfe6c8f1d80a"
+    - "localhost"
 
   register: access_rulebase
 
