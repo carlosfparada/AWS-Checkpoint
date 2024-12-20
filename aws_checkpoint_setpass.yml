@@ -46,7 +46,7 @@
           - save config
           - exit     
 
-          - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&primary=10.0.0.2&default_gw_v4=10.0.0.1&timezone='Europe/Lisbon'&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
+          # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&primary=10.0.0.2&default_gw_v4=10.0.0.1&timezone='Europe/Lisbon'&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
 
           # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&primary=10.0.0.2&default_gw_v4=10.0.0.1&timezone='Europe/Lisbon'&admin_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'&maintenance_hash='$1$4Yowk5ve$b2XnIUqpoCTpXs1.GT.qo0'"
 
@@ -78,20 +78,20 @@
       timeout: 10
     delegate_to: localhost
 
-      # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Save configs
-    ansible.builtin.expect:
-      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-      # echo: true
-      responses:
-        "checkpoint-1>":
-          # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
-          # - 'mgmt_cli -r true set api-settings accepted-api-calls-from "All IP addresses" --domain "System Data"'
-          # - 'mgmt_cli -u user -p password -m x.y.z.w --domain "System Data"''
-          # - api restart
-          - save config
-          - exit
-    no_log: false # hide passwords on logs
+  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  # - name: Save configs
+  #   ansible.builtin.expect:
+  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+  #     # echo: true
+  #     responses:
+  #       "checkpoint-1>":
+  #         # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
+  #         # - 'mgmt_cli -r true set api-settings accepted-api-calls-from "All IP addresses" --domain "System Data"'
+  #         # - 'mgmt_cli -u user -p password -m x.y.z.w --domain "System Data"''
+  #         # - api restart
+  #         - save config
+  #         - exit
+  #   no_log: false # hide passwords on logs
 
 # - name: Setup Windows
 #   hosts: groups['windows'][0]
