@@ -33,7 +33,7 @@
       addressing:
         private_ip: "{{ item.private_ip_address }}"
         prefix: "24"
-        network: "{{ private_ip_prefix | ansible.utils.ipaddr('0') }}"
+        network: "{{ item.private_ip_address + "/24" | ansible.utils.ipaddr('0') }}"
         gateway: "{{ private_ip_prefix | ansible.utils.ipaddr('1') }}"
         dns: "{{ private_ip_prefix | ansible.utils.ipaddr('2') }}"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
