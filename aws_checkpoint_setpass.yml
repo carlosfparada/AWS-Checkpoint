@@ -25,8 +25,7 @@
       mode: '0600'
 
   - ansible.builtin.set_fact:
-      addressing:
-        private_ip_prefix: "{{ item.private_ip_address }}/24"
+      private_ip_prefix: "{{ item.private_ip_address }}/24"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
