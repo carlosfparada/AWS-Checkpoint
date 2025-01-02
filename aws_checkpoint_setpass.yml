@@ -82,7 +82,7 @@
       path: /etc/.wizard_accepted
     register: file_data
     until: file_data.stat.exists
-    retries: 50
+    retries: 100
     delay: 10
 
   - name: Sleep for 10 additional seconds and continue
