@@ -25,16 +25,10 @@
       mode: '0600'
 
   - ansible.builtin.set_fact:
-      prefix: "24"
       private_ip: "{{ item.private_ip_address }}"
-      private_ip_prefix: "{{ (item.private_ip_address + '/24') | ansible.utils.ipaddr('network/prefix') }}/24"
-    loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
-    when: item.attachment.device_index == 0 
-
-  - ansible.builtin.set_fact:
-      network: "{{ private_ip_prefix | ansible.utils.ipaddr('0') }}"
-      gateway: "{{ private_ip_prefix | ansible.utils.ipaddr('1') }}"
-      dns: "{{ private_ip_prefix | ansible.utils.ipaddr('2') }}"
+      prefix: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('prefix') }}"
+      gateway: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('1') }}"
+      dns: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('2') }}"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
