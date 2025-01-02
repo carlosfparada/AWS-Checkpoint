@@ -27,13 +27,10 @@
   - ansible.builtin.set_fact:
       private_ip: "{{ item.private_ip_address }}"
       prefix: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('prefix') }}"
-      gateway: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('1') }}"
-      dns: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('2') }}"
+      gateway: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('1') }}"
+      dns: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('2') | ansible.utils.ipaddr('address') }}"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
-
-  - debug:
-      var: "{{ private_ip }}"
 
   - ansible.builtin.set_fact:
       sha512_hash: "{{ new_password | hash('sha512') }}"
