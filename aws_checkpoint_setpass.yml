@@ -79,6 +79,10 @@
     retries: 50
     delay: 10
 
+  - name: Sleep for 10 additional seconds and continue
+    wait_for:
+      timeout: 10
+
   - name: Rebooting
     ansible.builtin.command: "shutdown -r now"
 
