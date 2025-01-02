@@ -29,11 +29,11 @@
 
   - ansible.builtin.set_fact:
       addressing:
-        ip: "{{ item.private_ip_address }}"
+        private_ip: "{{ item.private_ip_address }}"
         prefix: "24"
-        gateway: "{{ item.private_ip_address | ansible.utils.ipaddr('net') }}"
-        # gateway: "{{ item.private_ip_address | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('1') }}"
-        # dns: "{{ item.private_ip_address | ansible.utils.ipaddr('net') | ansible.utils.ipaddr('2') }}"
+        network: "{{ item.private_ip_address | ansible.utils.ipaddr('0') }}"
+        gateway: "{{ item.private_ip_address | ansible.utils.ipaddr('1') }}"
+        dns: "{{ item.private_ip_address | ansible.utils.ipaddr('2') }}"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
