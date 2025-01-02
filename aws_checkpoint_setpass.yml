@@ -66,7 +66,7 @@
 
   - name: Wait until First Time Configuration Wizard completes
     ansible.builtin.stat:
-      path: /etc/.wizard_accepted
+      path: "/etc/.wizard_accepted"
     register: file_data
     until: file_data.stat.exists
     retries: 60
