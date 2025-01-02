@@ -27,7 +27,7 @@
   - debug:
       var: hostvars[groups['checkpoint'][0]].private_ip_address
 
-  - set_fact:
+  - ansible.builtin.set_fact:
       addressing:
         ip: "{{ item.private_ip_address }}"
         prefix: "24"
@@ -36,8 +36,8 @@
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
-  - debug:
-      var: addressing
+  - ansible.builtin.set_fact:
+      sha512_hash: "{{ new_password | hash('sha512') }}"
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
