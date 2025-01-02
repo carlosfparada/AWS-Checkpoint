@@ -24,16 +24,19 @@
       dest: /tmp/private-key.pem
       mode: '0600'
 
-  - debug:
-      var: hostvars[groups['checkpoint'][0]].private_ip_address
+  - ansible.builtin.set_fact:
+      addressing:
+        private_ip_prefix: "{{ item.private_ip_address }}/24"
+    loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
+    when: item.attachment.device_index == 0 
 
   - ansible.builtin.set_fact:
       addressing:
         private_ip: "{{ item.private_ip_address }}"
         prefix: "24"
-        network: "{{ item.private_ip_address | ansible.utils.ipaddr('0') }}"
-        gateway: "{{ item.private_ip_address | ansible.utils.ipaddr('1') }}"
-        dns: "{{ item.private_ip_address | ansible.utils.ipaddr('2') }}"
+        network: "{{ private_ip_prefix | ansible.utils.ipaddr('0') }}"
+        gateway: "{{ private_ip_prefix | ansible.utils.ipaddr('1') }}"
+        dns: "{{ private_ip_prefix | ansible.utils.ipaddr('2') }}"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
