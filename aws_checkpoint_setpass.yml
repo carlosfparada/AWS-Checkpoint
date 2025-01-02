@@ -38,9 +38,6 @@
   - ansible.builtin.set_fact:
       command: "config_system --config-string \"hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='{{new_password}}'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4={{private_ip}}&masklen_v4={{prefix}}&default_gw_v4={{gateway}}&ipstat_v6=off&primary={{dns}}&timezone='Europe/Lisbon'\""
 
-  - debug:
-      var: command
-
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
     ansible.builtin.expect:
