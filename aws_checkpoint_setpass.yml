@@ -27,7 +27,7 @@
   - ansible.builtin.set_fact:
       prefix: "24"
       private_ip: "{{ item.private_ip_address }}"
-      private_ip_prefix: "{{ (item.private_ip_address + '/24') | ansible.utils.ipaddr('network') }}"
+      private_ip_prefix: "{{ (item.private_ip_address) | ansible.utils.ipaddr('network') }}/24"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
