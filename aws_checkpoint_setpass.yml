@@ -37,6 +37,9 @@
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
 
+  - debug:
+      var: addressing
+
   - ansible.builtin.set_fact:
       sha512_hash: "{{ new_password | hash('sha512') }}"
 
