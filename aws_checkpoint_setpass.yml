@@ -26,38 +26,6 @@
       mode: '0600'
     delegate_to: localhost
 
-
-
-
-
-  - name: Check existance of /etc/.wizard_accepted file (stat)
-    ansible.builtin.stat:
-      path: "/etc/test"
-    register: file_data
-
-  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Check existance of /etc/.wizard_accepted file (ssh)
-    ansible.builtin.expect:
-      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-      # echo: true
-      responses:
-        # /etc/.wizard_accepted  /etc/.wizard_started
-        ".*Expert.*":
-          - "ls /etc/.wizard_*"
-          - exit
-    no_log: false # hide passwords on logs
-    register: file_data
-    delegate_to: localhost
-    until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepted.*')"
-    retries: 60
-    delay: 10
-
-  - debug:
-      var: file_data.stdout_lines
-
-
-
-
   - ansible.builtin.set_fact:
       private_ip: "{{ item.private_ip_address }}"
       prefix: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('prefix') }}"
@@ -100,13 +68,22 @@
     no_log: false # hide passwords on logs
     delegate_to: localhost
 
-  - name: Wait until First Time Configuration Wizard completes
-    ansible.builtin.stat:
-      path: "/etc/.wizard_accepted"
+  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  - name: Check existance of /etc/.wizard_accepted file (ssh)
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      # echo: true
+      responses:
+        # /etc/.wizard_accepted  /etc/.wizard_started
+        ".*Expert.*":
+          - "ls /etc/.wizard_*"
+          - exit
+    no_log: false # hide passwords on logs
     register: file_data
-    until: file_data.stat.exists
+    delegate_to: localhost
+    until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepted.*')"
     retries: 60
-    delay: 30
+    delay: 10
 
   - name: Sleep for 10 additional seconds and continue
     wait_for:
