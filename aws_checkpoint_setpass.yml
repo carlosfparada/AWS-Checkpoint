@@ -71,7 +71,7 @@
     delegate_to: localhost
 
   - ansible.builtin.set_fact:
-      grub_hash_pass_string: "{{ hash_data.stdout_lines | select('match','PBKDF2 hash of your password is ') }}"
+      grub_hash_pass_string: "{{ hash_data.stdout_lines | select('match','PBKDF2 hash of your password is (.*)') }}"
 
   - debug:
       msg: "set grub2-password-hash {{ grub_hash_pass_string }}"
