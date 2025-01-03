@@ -71,7 +71,7 @@
     delegate_to: localhost
 
   - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ hash_data.stdout_lines | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
+      grub_hash_pass: "{{ hash_data.stdout_lines | regex_search('\"PBKDF2 hash of your password is (.*)\"','\\1') }}"
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin grub2 password and run config system (First Time Wizard)
