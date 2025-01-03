@@ -9,7 +9,7 @@
       name: utils_hosts_aws
 
 - name: Setup Checkpoint
-  hosts: localhost
+  hosts: "{{ groups['checkpoint'][0] }}"
   connection: local
   gather_facts: no
   vars_files: vars/main.yml
@@ -17,12 +17,14 @@
 
   # cat private-key.pem | ansible-vault encrypt_string  --stdin-name 'private_key' --output private-key.vault
   - ansible.builtin.include_vars: files/private-key.yml
+    delegate_to: localhost
 
   - name: Copy private key locally
     ansible.builtin.copy:
       content: "{{ private_key }}"
       dest: /tmp/private-key.pem
       mode: '0600'
+    delegate_to: localhost
 
   - ansible.builtin.set_fact:
       private_ip: "{{ item.private_ip_address }}"
@@ -31,12 +33,11 @@
       dns: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('2') | ansible.utils.ipaddr('address') }}"
     loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
     when: item.attachment.device_index == 0 
+    delegate_to: localhost
 
   - ansible.builtin.set_fact:
       sha512_hash: "{{ new_password | hash('sha512') }}"
-
-  - ansible.builtin.set_fact:
-      command: "config_system --config-string \"hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='{{new_password}}'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4={{private_ip}}&masklen_v4={{prefix}}&default_gw_v4={{gateway}}&ipstat_v6=off&primary={{dns}}&timezone='Europe/Lisbon'\""
+    delegate_to: localhost
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
@@ -63,23 +64,23 @@
           # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
           # - api restart
     no_log: false # hide passwords on logs
+    delegate_to: localhost
 
   - name: Wait until First Time Configuration Wizard completes
     ansible.builtin.stat:
       path: "/etc/.wizard_accepted"
     register: file_data
     until: file_data.stat.exists
-    retries: 60
+    retries: 100
     delay: 20
-    delegate_to: "{{ groups['checkpoint'][0] }}"
 
   - name: Sleep for 10 additional seconds and continue
     wait_for:
       timeout: 10
+    delegate_to: localhost
 
   - name: Rebooting
     ansible.builtin.command: "shutdown -r now"
-    delegate_to: "{{ groups['checkpoint'][0] }}"
 
   
 
