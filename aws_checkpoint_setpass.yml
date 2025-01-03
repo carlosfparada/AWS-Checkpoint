@@ -92,10 +92,6 @@
           - "set grub2-password-hash {{ grub_hash_pass }}"
           - "save config"
           - exit
-        "checkpoint-1>":
-          - "set grub2-password-hash {{ grub_hash_pass }}"
-          - "save config"
-          - exit
         # "checkpoint-1>":
         #   - save config
         #   - exit
