@@ -23,6 +23,11 @@
   - debug:
       var: file_data
 
+  - debug:
+      var: ansible_host
+
+  - debug: 
+      var: groups['checkpoint'][0]
 
   # cat private-key.pem | ansible-vault encrypt_string  --stdin-name 'private_key' --output private-key.vault
   - ansible.builtin.include_vars: files/private-key.yml
