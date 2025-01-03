@@ -51,7 +51,7 @@
     no_log: false # hide passwords on logs
     register: file_data
     delegate_to: localhost
-    until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepted.*')"
+    until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepteda.*')"
     retries: 60
     delay: 10
 
