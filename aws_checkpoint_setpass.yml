@@ -71,7 +71,7 @@
     delegate_to: localhost
 
   - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ hash_data.stdout_lines | select('match','PBKDF2') | first | regex_search('PBKDF2 hash of your password is (.*)','\\1') | first }}"
+      grub_hash_pass: "{{ hash_data.stdout_lines | select('match','PBKDF2') | regex_search('PBKDF2 hash of your password is (.*)','\\1') | first }}"
 
   - debug:
       var: grub_hash_pass
