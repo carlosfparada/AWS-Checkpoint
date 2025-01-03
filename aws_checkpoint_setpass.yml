@@ -41,9 +41,7 @@
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       # echo: true
       responses:
-        # In order to configure your system, please access the Web UI and finish the First Time Wizard.
-        # set user admin password
-        # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
+        # /etc/.wizard_accepted  /etc/.wizard_started
         ".*Expert.*":
           - "ls /etc/.wizard_*"
           - exit
