@@ -45,7 +45,6 @@
         ".*Expert.*":
           - "ls /etc/.wizard_*"
           - exit
-          # - api restart
     no_log: false # hide passwords on logs
     register: file_data
     delegate_to: localhost
