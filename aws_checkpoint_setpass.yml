@@ -35,43 +35,8 @@
     when: item.attachment.device_index == 0 
     delegate_to: localhost
 
-  - name: Generate grub password hash
-    ansible.builtin.expect:
-      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-      responses:
-        # /etc/.wizard_accepted  /etc/.wizard_started
-        ".*Expert.*":
-          - "grub2-mkpasswd-pbkdf2" 
-          - exit
-        "Enter password":
-          - "{{ new_password }}"
-        "Reenter password":
-          - "{{ new_password }}"
-    no_log: false # hide passwords on logs
-    register: hash_data
-    delegate_to: localhost
-
-  - ansible.builtin.set_fact:
-      grub_hash_pass_text: "{{ hash_data.stdout_lines | select('match', 'PBKDF2 hash of your password is (.*)') }} "
-
-  - debug:
-      var: grub_hash_pass_text
-
-  - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ grub_hash_pass_text | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
-
-  - debug:
-      var: grub_hash_pass
-
-  - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ hash_data.stdout_lines | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
-
-  - debug:
-      var: grub_hash_pass
-
-
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Set admin initial password and config system
+  - name: Set admin initial passwords and change shell
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       # echo: true
@@ -82,9 +47,44 @@
         "i-.*>":
           - "set user admin password-hash {{ new_password | password_hash('md5') }}"
           - "set expert-password-hash {{ new_password | password_hash('md5') }}"
-          #- "set grub2-password-hash {{ new_password | password_hash('sha512') }}"
-          - "set grub2-password-hash grub.pbkdf2.sha512.10000.F8781604CB68554AFD2058F78C77D888CF4E4F6FA3DB28099F1C8A29A4A0C9120DDA8DC40EDED72B8644023D2341A760D1B435AD68CFB832371070DE4CC82F65.C00297338E54F194E51B310D61ECEAD651BCD15EDFE488166B87ACC21DD600FC44C83F8F65BDC81CA24F39B64F66D8BBC033BBBE3FBC96B3A96C78B391E7DDB2"
           - "set user admin shell /bin/bash"
+          - "save config"
+          - exit
+    no_log: false # hide passwords on logs
+    delegate_to: localhost
+
+  - name: Generate grub password hash
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      responses:
+        # /etc/.wizard_accepted  /etc/.wizard_started
+        ".*Expert.*":
+          - "grub2-mkpasswd-pbkdf2"
+          # - "set grub2-password-hash grub.pbkdf2.sha512.10000.F8781604CB68554AFD2058F78C77D888CF4E4F6FA3DB28099F1C8A29A4A0C9120DDA8DC40EDED72B8644023D2341A760D1B435AD68CFB832371070DE4CC82F65.C00297338E54F194E51B310D61ECEAD651BCD15EDFE488166B87ACC21DD600FC44C83F8F65BDC81CA24F39B64F66D8BBC033BBBE3FBC96B3A96C78B391E7DDB2"
+          - exit
+        "Enter password":
+          - "{{ new_password }}"
+        "Reenter password":
+          - "{{ new_password }}"
+    no_log: false # hide passwords on logs
+    register: hash_data
+    delegate_to: localhost
+
+  - ansible.builtin.set_fact:
+      grub_hash_pass: "{{ hash_data.stdout_lines | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
+
+  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  - name: Set admin grub2 password and run config system (First Time Wizard)
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      # echo: true
+      responses:
+        ".*Expert.*":
+          - clish
+          - exit   
+        "checkpoint-1>":
+        #"i-.*>":
+          - "set grub2-password-hash {{ grub_hash_pass }}"
           - "save config"
           # WORKS, NEED REBOOT AFTER
           # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4=10.0.0.253&masklen_v4=24&default_gw_v4=10.0.0.1&ipstat_v6=off&primary=10.0.0.2&timezone='Europe/Lisbon'"
