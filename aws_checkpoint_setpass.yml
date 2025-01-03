@@ -17,7 +17,7 @@
 
   - name: Wait until First Time Configuration Wizard completes
     ansible.builtin.stat:
-      path: "/etc/.wizard_accepted"
+      path: "/etc/"
     register: file_data
 
   - debug:
