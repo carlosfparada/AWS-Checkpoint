@@ -116,7 +116,7 @@
     delegate_to: localhost
     until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepted.*')"
     retries: 60
-    delay: 10
+    delay: 30
 
   - name: Sleep for 10 additional seconds and continue
     wait_for:
