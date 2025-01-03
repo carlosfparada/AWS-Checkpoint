@@ -10,7 +10,7 @@
 
 - name: Setup Checkpoint
   hosts: "{{ groups['checkpoint'][0] }}"
-  # connection: local
+  connection: local
   gather_facts: no
   vars_files: vars/main.yml
   tasks:
