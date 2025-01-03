@@ -35,7 +35,7 @@
     when: item.attachment.device_index == 0 
     delegate_to: localhost
 
-  - name: Generate 
+  - name: Generate grub password hash
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       responses:
@@ -51,8 +51,11 @@
     register: hash_data
     delegate_to: localhost
 
+  - ansible.builtin.set_fact:
+      grub_hash_pass: "{{ hash_data.stdout_lines | select('match', 'PBKDF2 hash of your password is (.*)') }} "
+
   - debug:
-      var: hash_data
+      var: grub_hash_pass
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
