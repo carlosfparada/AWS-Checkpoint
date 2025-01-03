@@ -52,17 +52,24 @@
     delegate_to: localhost
 
   - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ hash_data.stdout_lines | select('match', 'PBKDF2 hash of your password is (.*)') }} "
+      grub_hash_pass_text: "{{ hash_data.stdout_lines | select('match', 'PBKDF2 hash of your password is (.*)') }} "
+
+  - debug:
+      var: grub_hash_pass_text
+
+  - ansible.builtin.set_fact:
+      grub_hash_pass: "{{ grub_hash_pass_text | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
 
   - debug:
       var: grub_hash_pass
 
   - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ hash_data.stdout_lines | select('match', 'PBKDF2 hash of your password is (.*)', '\\1') }}"
+      grub_hash_pass: "{{ hash_data.stdout_lines | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
 
   - debug:
       var: grub_hash_pass
-      
+
+
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
     ansible.builtin.expect:
