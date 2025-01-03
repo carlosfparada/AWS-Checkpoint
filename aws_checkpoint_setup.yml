@@ -146,6 +146,13 @@
     delegate_to: localhost
 
 
+- name: Setup Windows
+  hosts: "{{ groups['checkpoint'][0] }}"
+  connection: local
+  gather_facts: no
+  vars_files: vars/main.yml
+  tasks:
+
 
   # - name: Wait until Checkpoint comes back
   #   wait_for:
