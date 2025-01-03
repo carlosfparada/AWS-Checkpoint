@@ -51,12 +51,12 @@
     no_log: false # hide passwords on logs
     register: file_data
     delegate_to: localhost
-    until: "'/etc/.wizard_accepted' in file_data"
+    until: "'/etc/.wizard_accepted' in file_data.stdout_lines"
     retries: 60
     delay: 10
 
   - debug:
-      var: file_data
+      var: file_data.stdout_lines
 
 
 
