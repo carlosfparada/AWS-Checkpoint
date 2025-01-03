@@ -30,13 +30,13 @@
 
 
 
-  - name: Wait until First Time Configuration Wizard completes
+  - name: Check existance of /etc/.wizard_accepted file (stat)
     ansible.builtin.stat:
       path: "/etc/test"
     register: file_data
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  - name: Set admin initial password and config system
+  - name: Check existance of /etc/.wizard_accepted file (ssh)
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       # echo: true
