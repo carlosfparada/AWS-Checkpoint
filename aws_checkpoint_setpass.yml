@@ -51,6 +51,7 @@
     no_log: false # hide passwords on logs
     register: file_data
     delegate_to: localhost
+    until: '/etc/.wizard_accepted' in file_data
 
   - debug:
       var: file_data
