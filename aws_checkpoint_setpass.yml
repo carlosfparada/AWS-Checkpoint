@@ -20,14 +20,26 @@
       path: "/etc/test"
     register: file_data
 
+  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  - name: Set admin initial password and config system
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      # echo: true
+      responses:
+        # In order to configure your system, please access the Web UI and finish the First Time Wizard.
+        # set user admin password
+        # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
+        ".*Expert.*":
+          - "ls -la /etc/"
+          - exit
+          # - api restart
+    no_log: false # hide passwords on logs
+    register: file_data
+    delegate_to: localhost
+
   - debug:
       var: file_data
 
-  - debug:
-      var: ansible_host
-
-  - debug: 
-      var: groups['checkpoint'][0]
 
   # cat private-key.pem | ansible-vault encrypt_string  --stdin-name 'private_key' --output private-key.vault
   - ansible.builtin.include_vars: files/private-key.yml
@@ -73,7 +85,7 @@
           # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4=10.0.0.253&masklen_v4=24&default_gw_v4=10.0.0.1&ipstat_v6=off&primary=10.0.0.2&timezone='Europe/Lisbon'"
           - "config_system --config-string \"hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='{{new_password}}'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4={{private_ip}}&masklen_v4={{prefix}}&default_gw_v4={{gateway}}&ipstat_v6=off&primary={{dns}}&timezone='Europe/Lisbon'\""
           - save config
-          - exit     
+          - exit
         # "checkpoint-1>":
         #   - save config
         #   - exit
