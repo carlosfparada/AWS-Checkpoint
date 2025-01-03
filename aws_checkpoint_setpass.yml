@@ -117,7 +117,7 @@
     wait_for:
       timeout: 10
     delegate_to: localhost
-
+    
   - name: Rebooting
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
@@ -127,7 +127,12 @@
     no_log: false # hide passwords on logs
     delegate_to: localhost
 
-  - name: Wait until FortiManager boots up
+  - name: Sleep for 10 additional seconds and continue
+    wait_for:
+      timeout: 10
+    delegate_to: localhost
+
+  - name: Wait until Checkpoint boots up
     wait_for:
       port: 22
       state: started
