@@ -71,6 +71,7 @@
     until: file_data.stat.exists
     retries: 60
     delay: 20
+    delegate_to: "{{ groups['checkpoint'][0] }}"
 
   - name: Sleep for 10 additional seconds and continue
     wait_for:
