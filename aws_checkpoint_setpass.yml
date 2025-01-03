@@ -77,7 +77,7 @@
       msg: "set grub2-password-hash {{ grub_hash_pass_string }}"
 
   - ansible.builtin.set_fact:
-      grub_hash_pass: "{{ grub_hash_pass_string | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
+      grub_hash_pass: "{{ grub_hash_pass_string[0] | regex_search('PBKDF2 hash of your password is (.*)','\\1') }}"
 
   - debug:
       msg: "set grub2-password-hash {{ grub_hash_pass }}"
