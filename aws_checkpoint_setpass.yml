@@ -68,11 +68,9 @@
     no_log: false # hide passwords on logs
     delegate_to: localhost
 
-  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Check existance of /etc/.wizard_accepted file (ssh)
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-      # echo: true
       responses:
         # /etc/.wizard_accepted  /etc/.wizard_started
         ".*Expert.*":
@@ -91,7 +89,13 @@
     delegate_to: localhost
 
   - name: Rebooting
-    ansible.builtin.command: "shutdown -r now"
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      responses:
+        ".*Expert.*":
+          - "reboot"
+    no_log: false # hide passwords on logs
+    delegate_to: localhost
 
   - name: Wait until FortiManager boots up
     wait_for:
