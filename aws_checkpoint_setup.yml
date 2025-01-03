@@ -147,12 +147,14 @@
 
 
 - name: Setup Windows
-  hosts: "{{ groups['checkpoint'][0] }}"
+  hosts: "{{ groups['windows'][0] }}"
   connection: local
   gather_facts: no
   vars_files: vars/main.yml
   tasks:
 
+    - debug:
+        msg: "{{ groups['windows'][0] }}"
 
   # - name: Wait until Checkpoint comes back
   #   wait_for:
