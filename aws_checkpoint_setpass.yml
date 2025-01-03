@@ -45,7 +45,7 @@
         # set user admin password
         # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
         ".*Expert.*":
-          - "ls /etc/.wizard_a*"
+          - "ls /etc/.wizard_accepta*"
           - exit
           # - api restart
     no_log: false # hide passwords on logs
