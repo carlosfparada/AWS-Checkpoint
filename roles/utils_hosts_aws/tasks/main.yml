@@ -14,3 +14,15 @@
     name: "{{ node_name }}"
     groups: "{{ group_name }}"
   when: node_name is defined
+
+- name: Get windows node
+  set_fact:
+    node_name: "{{ item }}"
+  loop: "{{ groups['all'] }}"
+  when: hostvars[item].tags is defined and  hostvars[item].tags.Name | regex_search("^windows-(.*)$")
+
+- name: Add windows node to the windows group
+  add_host:
+    name: "{{ node_name }}"
+    groups: "{{ win_group_name }}"
+  when: node_name is defined

@@ -2,3 +2,4 @@
 
 #node_pattern: "checkpoint"
 group_name: "checkpoint"
+win_group_name: "windows"
