@@ -17,7 +17,7 @@
 
   - name: Wait until First Time Configuration Wizard completes
     ansible.builtin.stat:
-      path: "/etc/"
+      path: "/etc/virc"
     register: file_data
 
   - debug:
