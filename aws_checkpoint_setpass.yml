@@ -35,9 +35,24 @@
     when: item.attachment.device_index == 0 
     delegate_to: localhost
 
-  - ansible.builtin.set_fact:
-      sha512_hash: "{{ new_password | hash('sha512') }}"
+  - name: Generate 
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      responses:
+        # /etc/.wizard_accepted  /etc/.wizard_started
+        ".*Expert.*":
+          - "grub2-mkpasswd-pbkdf2" 
+          - exit
+        "Enter password":
+          - "{{ new_password }}"
+        "Reenter password":
+          - "{{ new_password }}"
+    no_log: false # hide passwords on logs
+    register: hash_data
     delegate_to: localhost
+
+  - debug:
+      var: hash_data
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial password and config system
