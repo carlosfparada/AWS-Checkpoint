@@ -79,6 +79,7 @@
 
   - name: Rebooting
     ansible.builtin.command: "shutdown -r now"
+    delegate_to: "{{ groups['checkpoint'][0] }}"
 
   
 
