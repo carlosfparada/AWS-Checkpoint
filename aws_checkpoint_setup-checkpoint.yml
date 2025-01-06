@@ -65,7 +65,7 @@
           - "exit"
     no_log: false # hide passwords on logs
     delegate_to: localhost
-    
+
   - name: Generate grub password hash
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
@@ -134,6 +134,8 @@
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       responses:
         ".*Expert.*":
+          - "mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from 'All IP addresses'"
+          - "api restart"
           - "reboot"
         'Are you sure': 
           - y
@@ -154,9 +156,9 @@
       host: "{{ groups['checkpoint'][0] }}"
     delegate_to: localhost
 
-  - name: Sleep for 120 additional seconds and continue
+  - name: Sleep for 300 additional seconds and continue
     ansible.builtin.wait_for:
-      timeout: 120
+      timeout: 300
     delegate_to: localhost
     
   - name: Activate API for Ansible module to have access
