@@ -35,6 +35,18 @@
     when: item.attachment.device_index == 0 
     delegate_to: localhost
 
+  - name: Activate API for Ansible module to have access
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      echo: true
+      responses:
+        ".*Expert.*":
+          - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
+          - api restart
+          - exit
+    no_log: false # hide passwords on logs
+    delegate_to: localhost
+
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
   - name: Set admin initial passwords and change shell
     ansible.builtin.expect:
@@ -146,6 +158,11 @@
       timeout: 600
       delay: 30
       host: "{{ groups['checkpoint'][0] }}"
+    delegate_to: localhost
+
+  - name: Sleep for 10 additional seconds and continue
+    wait_for:
+      timeout: 10
     delegate_to: localhost
 
   - name: Activate API for Ansible module to have access
