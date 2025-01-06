@@ -45,8 +45,8 @@
         # set user admin password
         # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
         "i-.*>":
-          - "set user admin password-hash {{ new_password | password_hash('md5') }}"
-          - "set expert-password-hash {{ new_password | password_hash('md5') }}"
+          - "set user admin password-hash {{ new_password | ansible.builtin.password_hash('md5') }}"
+          - "set expert-password-hash {{ new_password | ansible.builtin.password_hash('md5') }}"
           - "set user admin shell /bin/bash"
           - "save config"
           - exit
@@ -139,9 +139,9 @@
       host: "{{ groups['checkpoint'][0] }}"
     delegate_to: localhost
 
-  - name: Sleep for 30 additional seconds and continue
+  - name: Sleep for 120 additional seconds and continue
     ansible.builtin.wait_for:
-      timeout: 30
+      timeout: 120
     delegate_to: localhost
     
   - name: Activate API for Ansible module to have access
@@ -166,33 +166,6 @@
     - debug:
         msg: "{{ groups['windows'][0] }}"
 
-  # - name: Wait until Checkpoint comes back
-  #   ansible.builtin.wait_for:
-  #     port: 22
-  #     state: started
-  #     timeout: 1800
-  #     delay: 10
-  #     host: "{{ groups['checkpoint'][0] }}"  
-
-  # - name: Sleep for 10 seconds and continue with play
-  #   ansible.builtin.wait_for:
-  #     timeout: 10
-  #   delegate_to: localhost
-
-  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  # - name: Save configs
-  #   ansible.builtin.expect:
-  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-  #     # echo: true
-  #     responses:
-  #       "checkpoint-1>":
-  #         # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
-  #         # - 'mgmt_cli -r true set api-settings accepted-api-calls-from "All IP addresses" --domain "System Data"'
-  #         # - 'mgmt_cli -u user -p password -m x.y.z.w --domain "System Data"''
-  #         # - api restart
-  #         - save config
-  #         - exit
-  #   no_log: false # hide passwords on logs
 
 # - name: Setup Windows
 #   hosts: groups['windows'][0]
