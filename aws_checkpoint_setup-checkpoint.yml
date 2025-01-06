@@ -147,11 +147,10 @@
   - name: Activate API for Ansible module to have access
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-      echo: true
       responses:
         ".*Expert.*":
           - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
-          - api restart
+          - "api restart"
           - exit
     no_log: false # hide passwords on logs
     delegate_to: localhost
