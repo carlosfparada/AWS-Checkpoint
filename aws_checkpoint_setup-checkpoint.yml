@@ -26,123 +26,127 @@
       mode: '0600'
     delegate_to: localhost
 
-  # - ansible.builtin.set_fact:
-  #     private_ip: "{{ item.private_ip_address }}"
-  #     prefix: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('prefix') }}"
-  #     gateway: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }}"
-  #     dns: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('2') | ansible.utils.ipaddr('address') }}"
-  #   loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
-  #   when: item.attachment.device_index == 0 
-  #   delegate_to: localhost
 
-  # # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  # - name: Set admin initial passwords and change shell
-  #   ansible.builtin.expect:
-  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-  #     # echo: true
-  #     responses:
-  #       # In order to configure your system, please access the Web UI and finish the First Time Wizard.
-  #       # set user admin password
-  #       # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
-  #       "i-.*>":
-  #         - "set user admin password-hash {{ new_password | ansible.builtin.password_hash('md5') }}"
-  #         - "set expert-password-hash {{ new_password | ansible.builtin.password_hash('md5') }}"
-  #         - "set user admin shell /bin/bash"
-  #         - "save config"
-  #         - exit
-  #   no_log: false # hide passwords on logs
-  #   delegate_to: localhost
+  - name: Set IP related data
+    ansible.builtin.set_fact:
+      private_ip: "{{ item.private_ip_address }}"
+      prefix: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('prefix') }}"
+      gateway: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }}"
+      dns: "{{ ec2_subnet_cidr | ansible.utils.ipaddr('2') | ansible.utils.ipaddr('address') }}"
+    loop: "{{ hostvars[groups['checkpoint'][0]].network_interfaces }}"
+    when: item.attachment.device_index == 0 
+    delegate_to: localhost
 
-  # - name: Generate grub password hash
-  #   ansible.builtin.expect:
-  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-  #     responses:
-  #       # /etc/.wizard_accepted  /etc/.wizard_started
-  #       ".*Expert.*":
-  #         - "grub2-mkpasswd-pbkdf2"
-  #         - exit
-  #       "Enter password":
-  #         - "{{ new_password }}"
-  #       "Reenter password":
-  #         - "{{ new_password }}"
-  #   no_log: false # hide passwords on logs
-  #   register: hash_data
-  #   delegate_to: localhost
+  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  - name: Set admin initial passwords and change shell
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      # echo: true
+      responses:
+        # In order to configure your system, please access the Web UI and finish the First Time Wizard.
+        # set user admin password
+        # i-047b52cf6b7891b2c> set user admin password-hash {{ new_password | password_hash('md5') }}
+        "i-.*>":
+          - "set user admin password-hash {{ new_password | ansible.builtin.password_hash('md5') }}"
+          - "set expert-password-hash {{ new_password | ansible.builtin.password_hash('md5') }}"
+          - "set user admin shell /bin/bash"
+          - "save config"
+          - exit
+    no_log: false # hide passwords on logs
+    delegate_to: localhost
 
-  # - ansible.builtin.set_fact:
-  #     grub_hash_pass_line: "{{ hash_data.stdout_lines | select('match','PBKDF2 hash of your password is ') | first }}"
+  - name: Generate grub password hash
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      responses:
+        # /etc/.wizard_accepted  /etc/.wizard_started
+        ".*Expert.*":
+          - "grub2-mkpasswd-pbkdf2"
+          - exit
+        "Enter password":
+          - "{{ new_password }}"
+        "Reenter password":
+          - "{{ new_password }}"
+    no_log: false # hide passwords on logs
+    register: hash_data
+    delegate_to: localhost
 
-  # - ansible.builtin.set_fact:
-  #     grub_hash_pass: "{{ grub_hash_pass_line | regex_search('PBKDF2 hash of your password is (.*)','\\1') | first }}"
+  - name: Set fact for grub2 hashing (line)
+    ansible.builtin.set_fact:
+      grub_hash_pass_line: "{{ hash_data.stdout_lines | select('match','PBKDF2 hash of your password is ') | first }}"
 
-  # # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
-  # - name: Set admin grub2 password and run config system (First Time Wizard)
-  #   ansible.builtin.expect:
-  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-  #     # echo: true
-  #     responses:
-  #       ".*Expert.*":
-  #         - clish
-  #         # WORKS, NEED REBOOT AFTER
-  #         # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4=10.0.0.253&masklen_v4=24&default_gw_v4=10.0.0.1&ipstat_v6=off&primary=10.0.0.2&timezone='Europe/Lisbon'"
-  #         - "config_system --config-string \"hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='{{new_password}}'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4={{private_ip}}&masklen_v4={{prefix}}&default_gw_v4={{gateway}}&ipstat_v6=off&primary={{dns}}&timezone='Europe/Lisbon'\""
-  #         - exit   
-  #       "i-.*>":
-  #         - "set grub2-password-hash {{ grub_hash_pass }}"
-  #         - "save config"
-  #         - exit
-  #   no_log: false # hide passwords on logs
-  #   delegate_to: localhost
+  - name: Set fact for grub2 hashing
+    ansible.builtin.set_fact:
+      grub_hash_pass: "{{ grub_hash_pass_line | regex_search('PBKDF2 hash of your password is (.*)','\\1') | first }}"
 
-  # - name: Wait for FTW to finish - check /etc/.wizard_accepted file (ssh)
-  #   ansible.builtin.expect:
-  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-  #     responses:
-  #       # /etc/.wizard_accepted  /etc/.wizard_started
-  #       ".*Expert.*":
-  #         - "ls /etc/.wizard_*"
-  #         - exit
-  #   no_log: false # hide passwords on logs
-  #   register: file_data
-  #   delegate_to: localhost
-  #   until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepted.*')"
-  #   retries: 60
-  #   delay: 20
+  # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  - name: Set admin grub2 password and run config system (First Time Wizard)
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      # echo: true
+      responses:
+        ".*Expert.*":
+          - clish
+          # WORKS, NEED REBOOT AFTER
+          # - config_system --config-string "hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='Admin123$%&'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4=10.0.0.253&masklen_v4=24&default_gw_v4=10.0.0.1&ipstat_v6=off&primary=10.0.0.2&timezone='Europe/Lisbon'"
+          - "config_system --config-string \"hostname=checkpoint-1&mgmt_admin_name=admin&mgmt_admin_passwd='{{new_password}}'&mgmt_admin_radio=gaia_admin&mgmt_gui_clients_radio=any&install_security_managment=true&install_security_gw=true&install_mgmt_primary=true&install_mgmt_secondary=false&gateway_daip=false&download_info=true&upload_info=true&domainname=ansible.redhat.com&ipstat_v4=manually&ipaddr_v4={{private_ip}}&masklen_v4={{prefix}}&default_gw_v4={{gateway}}&ipstat_v6=off&primary={{dns}}&timezone='Europe/Lisbon'\""
+          - exit   
+        "i-.*>":
+          - "set grub2-password-hash {{ grub_hash_pass }}"
+          - "save config"
+          - exit
+    no_log: false # hide passwords on logs
+    delegate_to: localhost
 
-  # - name: Sleep for 10 additional seconds and continue
-  #   ansible.builtin.wait_for:
-  #     timeout: 10
-  #   delegate_to: localhost
+  - name: Wait for FTW to finish - check /etc/.wizard_accepted file (ssh)
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      responses:
+        # /etc/.wizard_accepted  /etc/.wizard_started
+        ".*Expert.*":
+          - "ls /etc/.wizard_*"
+          - exit
+    no_log: false # hide passwords on logs
+    register: file_data
+    delegate_to: localhost
+    until: "file_data.stdout_lines | select('match', '.*/etc/.wizard_accepted.*')"
+    retries: 60
+    delay: 20
 
-  # - name: Rebooting
-  #   ansible.builtin.expect:
-  #     command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
-  #     responses:
-  #       ".*Expert.*":
-  #         - "reboot"
-  #       'Are you sure': 
-  #         - y
-  #   no_log: false # hide passwords on logs
-  #   delegate_to: localhost
+  - name: Sleep for 10 additional seconds and continue
+    ansible.builtin.wait_for:
+      timeout: 10
+    delegate_to: localhost
 
-  # - name: Sleep for 10 additional seconds and continue
-  #   ansible.builtin.wait_for:
-  #     timeout: 10
-  #   delegate_to: localhost
+  - name: Rebooting...
+    ansible.builtin.expect:
+      command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      responses:
+        ".*Expert.*":
+          - "reboot"
+        'Are you sure': 
+          - y
+    no_log: false # hide passwords on logs
+    delegate_to: localhost
 
-  # - name: Wait until Checkpoint boots up
-  #   ansible.builtin.wait_for:
-  #     port: 22
-  #     state: started
-  #     timeout: 600
-  #     delay: 30
-  #     host: "{{ groups['checkpoint'][0] }}"
-  #   delegate_to: localhost
+  - name: Sleep for 10 additional seconds and continue
+    ansible.builtin.wait_for:
+      timeout: 10
+    delegate_to: localhost
 
-  # - name: Sleep for 120 additional seconds and continue
-  #   ansible.builtin.wait_for:
-  #     timeout: 120
-  #   delegate_to: localhost
+  - name: Wait until Checkpoint boots up
+    ansible.builtin.wait_for:
+      port: 22
+      state: started
+      timeout: 600
+      delay: 30
+      host: "{{ groups['checkpoint'][0] }}"
+    delegate_to: localhost
+
+  - name: Sleep for 120 additional seconds and continue
+    ansible.builtin.wait_for:
+      timeout: 120
+    delegate_to: localhost
     
   - name: Activate API for Ansible module to have access
     ansible.builtin.expect:
