@@ -122,8 +122,6 @@
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
       responses:
         ".*Expert.*":
-          - "mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from 'All IP addresses'"
-          - "api restart"
           - "reboot"
         'Are you sure': 
           - y
