@@ -60,7 +60,6 @@
         # /etc/.wizard_accepted  /etc/.wizard_started
         ".*Expert.*":
           - "grub2-mkpasswd-pbkdf2"
-          # - "set grub2-password-hash grub.pbkdf2.sha512.10000.F8781604CB68554AFD2058F78C77D888CF4E4F6FA3DB28099F1C8A29A4A0C9120DDA8DC40EDED72B8644023D2341A760D1B435AD68CFB832371070DE4CC82F65.C00297338E54F194E51B310D61ECEAD651BCD15EDFE488166B87ACC21DD600FC44C83F8F65BDC81CA24F39B64F66D8BBC033BBBE3FBC96B3A96C78B391E7DDB2"
           - exit
         "Enter password":
           - "{{ new_password }}"
@@ -92,11 +91,6 @@
           - "set grub2-password-hash {{ grub_hash_pass }}"
           - "save config"
           - exit
-        # "checkpoint-1>":
-        #   - save config
-        #   - exit
-          # - 'mgmt_cli -r true --domain MDS set api-settings accepted-api-calls-from "All IP addresses"'
-          # - api restart
     no_log: false # hide passwords on logs
     delegate_to: localhost
 
@@ -116,7 +110,7 @@
     delay: 20
 
   - name: Sleep for 10 additional seconds and continue
-    wait_for:
+    ansible.builtin.wait_for:
       timeout: 10
     delegate_to: localhost
 
@@ -132,12 +126,12 @@
     delegate_to: localhost
 
   - name: Sleep for 10 additional seconds and continue
-    wait_for:
+    ansible.builtin.wait_for:
       timeout: 10
     delegate_to: localhost
 
   - name: Wait until Checkpoint boots up
-    wait_for:
+    ansible.builtin.wait_for:
       port: 22
       state: started
       timeout: 600
@@ -146,7 +140,7 @@
     delegate_to: localhost
 
   - name: Sleep for 30 additional seconds and continue
-    wait_for:
+    ansible.builtin.wait_for:
       timeout: 30
     delegate_to: localhost
     
@@ -173,7 +167,7 @@
         msg: "{{ groups['windows'][0] }}"
 
   # - name: Wait until Checkpoint comes back
-  #   wait_for:
+  #   ansible.builtin.wait_for:
   #     port: 22
   #     state: started
   #     timeout: 1800
@@ -181,7 +175,7 @@
   #     host: "{{ groups['checkpoint'][0] }}"  
 
   # - name: Sleep for 10 seconds and continue with play
-  #   wait_for:
+  #   ansible.builtin.wait_for:
   #     timeout: 10
   #   delegate_to: localhost
 
