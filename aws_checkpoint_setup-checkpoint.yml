@@ -79,6 +79,7 @@
       grub_hash_pass: "{{ grub_hash_pass_line | regex_search('PBKDF2 hash of your password is (.*)','\\1') | first }}"
 
   # https://community.checkpoint.com/t5/Cloud-Network-Security/CloudGuard-Network-security-default-password/td-p/201985
+  # https://sc1.checkpoint.com/documents/R81/WebAdminGuides/EN/CP_R81_Gaia_AdminGuide/Topics-GAG/Running-FTCW-in-CLI-Expert-Mode.htm
   - name: Set admin grub2 password and run config system (First Time Wizard)
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
@@ -147,7 +148,8 @@
     ansible.builtin.wait_for:
       timeout: 300
     delegate_to: localhost
-    
+  
+  # https://support.checkpoint.com/results/sk/sk174606
   - name: Activate API for Ansible module to have access
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
