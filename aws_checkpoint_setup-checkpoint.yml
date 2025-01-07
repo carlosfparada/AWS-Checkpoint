@@ -96,6 +96,7 @@
           - exit
     no_log: false # hide passwords on logs
     delegate_to: localhost
+    ignore_errors: true
 
   - name: Wait for FTW to finish - check /etc/.wizard_accepted file (ssh)
     ansible.builtin.expect:
