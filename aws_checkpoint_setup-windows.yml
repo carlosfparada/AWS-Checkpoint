@@ -14,8 +14,8 @@
   gather_facts: no
   vars_files: vars/main.yml
   vars:
-    # ansible_become_user: Administrator
-    # ansible_become_pass: "{{ new_password }}"
+    ansible_user: Administrator
+    ansible_ssh_pass: "{{ new_password }}"
   tasks:
 
     - debug:
@@ -27,7 +27,7 @@
         dest: C:\
         remote_src: yes
         force: True
-      become: True
+      # become: True
 
     - name: Install exe file
       ansible.windows.win_package:
