@@ -19,7 +19,7 @@
     ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_user: Administrator
-    ansible_ssh_pass: "{{ new_password }}"
+    ansible_password: "{{ new_password }}"
   tasks:
 
     - debug:
