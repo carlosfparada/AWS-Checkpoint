@@ -22,6 +22,17 @@
     ansible_password: "{{ new_password }}"
   tasks:
 
+  # cat private-key.pem | ansible-vault encrypt_string  --stdin-name 'private_key' --output private-key.vault
+    - ansible.builtin.include_vars: files/private-key.yml
+      delegate_to: localhost
+
+    - name: Copy private key locally
+      ansible.builtin.copy:
+        content: "{{ private_key }}"
+        dest: /tmp/private-key.pem
+        mode: '0600'
+      delegate_to: localhost
+
     - debug:
         msg: "{{ groups['windows'][0] }}"
 
