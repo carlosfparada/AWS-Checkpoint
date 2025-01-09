@@ -61,7 +61,7 @@ ec2_win_key_name: "KeyPair-Virginia"
 # Instance
 ec2_win_instance_name: windows-1
 
-# New Password
+# New Password Checkpoint and Windows
 new_password: "Admin123$%&"
 
 # Checkpoint
