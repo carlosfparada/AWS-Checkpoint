@@ -26,10 +26,10 @@
     - ansible.builtin.include_vars: files/private-key.yml
       delegate_to: localhost
 
-    - name: get the Administrator password
-      community.aws.ec2_win_password:
-        instance_id: i-XXXXXX
-        key_data: "{{ private_key }}"
+    # - name: get the Administrator password
+    #   community.aws.ec2_win_password:
+    #     instance_id: i-XXXXXX
+    #     key_data: "{{ private_key }}"
 
     - debug:
         msg: "{{ groups['windows'][0] }}"
