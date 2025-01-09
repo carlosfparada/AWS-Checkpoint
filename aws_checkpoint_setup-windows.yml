@@ -26,12 +26,10 @@
     - ansible.builtin.include_vars: files/private-key.yml
       delegate_to: localhost
 
-    - name: Copy private key locally
-      ansible.builtin.copy:
-        content: "{{ private_key }}"
-        dest: /tmp/private-key.pem
-        mode: '0600'
-      delegate_to: localhost
+    - name: get the Administrator password
+      community.aws.ec2_win_password:
+        instance_id: i-XXXXXX
+        key_data: "{{ private_key }}"
 
     - debug:
         msg: "{{ groups['windows'][0] }}"
