@@ -10,7 +10,7 @@
 
 - name: Setup Windows
   hosts: "{{ groups['windows'][0] }}"
-  connection: local
+  connection: winrm
   gather_facts: no
   vars_files: vars/main.yml
   vars:
