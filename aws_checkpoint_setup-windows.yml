@@ -19,7 +19,7 @@
     ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_user: Administrator
-    ansible_password: "{{ windows_password }}"
+    ansible_password: "{{ new_password }}"
   tasks:
 
   # cat private-key.pem | ansible-vault encrypt_string  --stdin-name 'private_key' --output private-key.vault
