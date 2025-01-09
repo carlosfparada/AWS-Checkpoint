@@ -24,6 +24,9 @@
     - debug:
         msg: "{{ groups['windows'][0] }}"
 
+    - name: Ping
+      ansible.windows.win_ping:
+
     - name: Dir
       ansible.windows.win_command:
         cmd: 'dir'
