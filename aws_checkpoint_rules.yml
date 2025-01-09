@@ -12,5 +12,6 @@
   hosts: "{{ groups['checkpoint'][0] }}"
   connection: httpapi
   gather_facts: no
+  vars_files: vars/main.yml
   roles:
     - checkpoint_policy_rules
