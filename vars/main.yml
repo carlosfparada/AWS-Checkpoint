@@ -64,6 +64,9 @@ ec2_win_instance_name: windows-1
 # New Password Checkpoint
 new_password: "Admin123$%&"
 
+# Windows password
+windows_password: 'Admin123$%&'
+
 # Checkpoint
 ansible_network_os: check_point.mgmt.checkpoint
 ansible_connection: httpapi
