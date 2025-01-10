@@ -9,7 +9,7 @@
       name: utils_hosts_aws
 
 - name: Setup Windows
-  hosts: "ec2-54-172-170-251.compute-1.amazonaws.com" # "{{ groups['windows'][0] }}"
+  hosts: "{{ groups['windows'][0] }}"
   connection: winrm
   gather_facts: no
   #vars_files: vars/main.yml
@@ -22,8 +22,8 @@
     # ansible_winrm_transport: basic
   tasks:
 
-    # - debug:
-    #     msg: "{{ groups['windows'][0] }}"
+    - debug:
+        msg: "{{ groups['windows'][0] }}"
 
     - name: Ping
       ansible.windows.win_ping:
@@ -32,6 +32,7 @@
       ansible.windows.win_command:
         cmd: 'dir'
         chdir: 'C:\Windows\TEMP'
+      ignore_errors: true
 
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
@@ -39,9 +40,10 @@
         dest: 'C:\Temp'
         remote_src: yes
         force: True
-      # become: True
+      ignore_errors: true
 
     - name: Install exe file
       ansible.windows.win_package:
         path: C:\Temp\Check_Point_R81.20_T631_SmartConsole.exe
         arguments: /install /passive /norestart
+      ignore_errors: true
