@@ -13,11 +13,11 @@
   connection: winrm
   gather_facts: no
   #vars_files: vars/main.yml
-  # vars:
-  #   ansible_connection: winrm
-  #   ansible_port: 5985
-  #   ansible_winrm_transport: ntlm
-  #   ansible_winrm_server_cert_validation: ignore
+  vars:
+    ansible_connection: winrm
+    ansible_port: 5985
+    ansible_winrm_transport: ntlm
+    ansible_winrm_server_cert_validation: ignore
   tasks:
 
     - debug:
