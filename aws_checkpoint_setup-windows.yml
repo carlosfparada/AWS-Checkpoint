@@ -9,7 +9,7 @@
       name: utils_hosts_aws
 
 - name: Setup Windows
-  hosts: "{{ groups['windows'][0] }}"
+  hosts: "ec2-3-87-215-170.compute-1.amazonaws.com" # "{{ groups['windows'][0] }}"
   connection: winrm
   gather_facts: no
   #vars_files: vars/main.yml
