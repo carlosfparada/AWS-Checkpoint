@@ -27,6 +27,10 @@
   ignore_errors: yes
   register: _accessrules
 
+# Check access rules  (CLI)
+# mgmt login user admin
+# mgmt_cli show access-rule layer Network name Rule_B
+
 # - name: Query all rulebase
 #   check_point.mgmt.cp_mgmt_run_script:
 #     script_name: "Fetch all Access Rules"

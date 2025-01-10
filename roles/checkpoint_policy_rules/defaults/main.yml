@@ -6,6 +6,10 @@ ansible_connection: httpapi
 ansible_httpapi_use_ssl: yes
 ansible_httpapi_validate_certs: no
 
+# Check access rules  (CLI)
+# mgmt login user admin
+# mgmt_cli show access-rule layer Network name Rule_B
+
 # checkpoint
 layer: Network
 checkpoint_fw_rules:
