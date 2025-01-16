@@ -32,11 +32,11 @@
         ansible_winrm_operation_timeout_sec: 1500
         ansible_winrm_read_timeout_sec: 1800
 
-    - name: Install exe file
-      ansible.windows.win_package:
-        path: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe '
-        arguments: -s
-        state: present
-      vars:
-        ansible_winrm_operation_timeout_sec: 1500
-        ansible_winrm_read_timeout_sec: 1800
+    # - name: Install exe file
+    #   ansible.windows.win_package:
+    #     path: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe'
+    #     arguments: -s
+    #     state: present
+    #   vars:
+    #     ansible_winrm_operation_timeout_sec: 1500
+    #     ansible_winrm_read_timeout_sec: 1800
