@@ -34,6 +34,9 @@
         dest: 'C:\Windows\Temp\'
         remote_src: False
         force: True
+      vars:
+        ansible_winrm_operation_timeout_sec: 1800
+        ansible_winrm_read_timeout_sec: 1800
 
     - name: Install exe file
       ansible.windows.win_package:
