@@ -33,7 +33,7 @@
       ignore_errors: true
 
     - name: ll EE
-      ansible.builtin.command: ls /tmp/
+      ansible.builtin.command: ls -la /tmp/
       register: myls
       delegate_to: localhost
       vars:
