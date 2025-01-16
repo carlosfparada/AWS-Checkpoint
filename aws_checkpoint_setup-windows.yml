@@ -32,6 +32,10 @@
         chdir: 'C:\'
       ignore_errors: true
 
+    - name: ll EE
+      ansible.builtin.command: ls /tmp/
+      register: myls
+
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
         src: /tmp/Check_Point_R81.20_T631_SmartConsole.exe
