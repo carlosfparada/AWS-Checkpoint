@@ -35,6 +35,7 @@
     - name: ll EE
       ansible.builtin.command: ls /tmp/
       register: myls
+      delegate_to: localhost
 
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
