@@ -1,7 +1,5 @@
 <powershell>
 
-net user Administrator "{{ windows_password }}"
-
 #Invoke-WebRequest -Uri https://raw.githubusercontent.com/ansible/ansible-documentation/ae8772176a5c645655c91328e93196bcf741732d/examples/scripts/ConfigureRemotingForAnsible.ps1 -OutFile .\winrm_setup.ps1; .\winrm_setup.ps1
 
 [CmdletBinding()]
@@ -14,7 +12,7 @@ Param (
     [switch]$ForceNewSSLCert,
     [switch]$GlobalHttpFirewallAccess,
     [switch]$DisableBasicAuth = $false,
-    [switch]$EnableCredSSP = $true
+    [switch]$EnableCredSSP
 )
 
 Function Write-ProgressLog {
@@ -368,4 +366,8 @@ Else {
     Write-ProgressLog "Unable to establish an HTTP or HTTPS remoting session."
     Throw "Unable to establish an HTTP or HTTPS remoting session."
 }
+Write-VerboseLog "PS Remoting has been successfully configured for Ansible."
+
+Net User Administrator "{{ windows_password }}"
+
 </powershell>
