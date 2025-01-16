@@ -12,12 +12,7 @@
   hosts: "{{ groups['windows'][0] }}"
   connection: winrm
   gather_facts: no
-  #vars_files: vars/main.yml
-  vars:
-    ansible_connection: winrm
-    ansible_port: 5986
-    ansible_winrm_transport: ntlm
-    ansible_winrm_server_cert_validation: ignore
+  vars_files: vars/windows.yml
   tasks:
     - name: Whoami
       ansible.windows.win_command:
@@ -35,7 +30,7 @@
 
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
-        src: /tmp/Check_Point_R81.20_T631_SmartConsole.exe
+        src: "/tmp/{{ smart_console_exe }}"
         dest: 'C:\Windows\Temp\'
         remote_src: False
         force: True
