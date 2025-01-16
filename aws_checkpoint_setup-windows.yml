@@ -40,7 +40,7 @@
 
     - name: Install exe file
       ansible.windows.win_package:
-        path: "C:\Windows\Temp\{{ smart_console_exe }}"
+        path: "C:\\Windows\\Temp\\{{ smart_console_exe }}"
         arguments: /install /passive /norestart
       vars:
         ansible_winrm_operation_timeout_sec: 1800
