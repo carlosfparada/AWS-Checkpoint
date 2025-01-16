@@ -30,7 +30,7 @@
 
     - name: Dir
       ansible.windows.win_command:
-        cmd: 'dir'
+        cmd: 'dir C:\'
         chdir: 'C:\'
       ignore_errors: true
 
