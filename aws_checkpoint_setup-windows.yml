@@ -36,6 +36,9 @@
       ansible.builtin.command: ls /tmp/
       register: myls
       delegate_to: localhost
+      vars:
+        ansible_connection: ssh
+        ansible_port: 22
 
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
