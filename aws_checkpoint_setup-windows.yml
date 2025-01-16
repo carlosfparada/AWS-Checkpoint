@@ -26,7 +26,7 @@
     - name: Ping
       ansible.windows.win_ping:
 
-    - name: Dir
+    - name: Whoami
       ansible.windows.win_command:
         cmd: 'whoami'
         chdir: 'C:\'
