@@ -30,7 +30,7 @@
 
     - name: Dir
       ansible.windows.win_command:
-        cmd: 'dir C:\'
+        cmd: 'whoami'
         chdir: 'C:\'
       ignore_errors: true
 
