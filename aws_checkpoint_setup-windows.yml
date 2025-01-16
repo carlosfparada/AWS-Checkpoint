@@ -44,7 +44,7 @@
       ansible.windows.win_copy:
         src: /tmp/Check_Point_R81.20_T631_SmartConsole.exe
         dest: 'C:\Windows\Temp'
-        remote_src: yes
+        remote_src: False
         force: True
       ignore_errors: true
 
