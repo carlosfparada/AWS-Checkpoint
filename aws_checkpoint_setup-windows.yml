@@ -14,14 +14,14 @@
   gather_facts: no
   vars_files: vars/windows.yml
   tasks:
-    - name: Whoami
+    - name: Check whoami
       ansible.windows.win_command:
         cmd: 'whoami'
         chdir: 'C:\'
       ignore_errors: true
 
-    - name: ll EE
-      ansible.builtin.command: ls -la /tmp/
+    - name: Check SmartConsole exe in the EE
+      ansible.builtin.command: ls -la "/tmp/{{ smart_console_exe }}"
       register: myls
       delegate_to: localhost
       vars:
