@@ -31,7 +31,7 @@
     - name: Dir
       ansible.windows.win_command:
         cmd: 'dir'
-        chdir: 'C:\Windows\TEMP'
+        chdir: 'C:\'
       ignore_errors: true
 
     - name: Copying from Ansible to Windows local disk
