@@ -37,7 +37,7 @@
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
         src: /tmp/Check_Point_R81.20_T631_SmartConsole.exe
-        dest: 'C:\Temp'
+        dest: 'C:\Windows\Temp'
         remote_src: yes
         force: True
       ignore_errors: true
