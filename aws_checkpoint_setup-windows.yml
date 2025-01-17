@@ -25,7 +25,7 @@
     - name: Decompress exe file
       community.windows.win_unzip:
         src: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe'
-        dest: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\'
+        dest: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole2\'
 
     # - name: Copying from Ansible to Windows local disk
     #   ansible.windows.win_copy:
