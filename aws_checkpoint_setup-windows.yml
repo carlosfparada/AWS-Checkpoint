@@ -22,6 +22,8 @@
         ansible_connection: local
         ansible_port: 22
 
+
+
     - name: Decompress exe file
       community.windows.win_unzip:
         src: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe'
