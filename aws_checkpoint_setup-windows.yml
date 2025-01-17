@@ -22,15 +22,15 @@
         ansible_connection: local
         ansible_port: 22
 
-    # - name: Copying from Ansible to Windows local disk
-    #   ansible.windows.win_copy:
-    #     src: "/tmp/{{ smart_console_exe }}"
-    #     dest: 'C:\Windows\Temp\'
-    #     remote_src: False
-    #     force: True
-    #   vars:
-    #     ansible_winrm_operation_timeout_sec: 1500
-    #     ansible_winrm_read_timeout_sec: 1800
+    - name: Copying from Ansible to Windows local disk
+      ansible.windows.win_copy:
+        src: "/tmp/{{ smart_console_exe }}"
+        dest: 'C:\Windows\Temp\'
+        remote_src: False
+        force: True
+      vars:
+        ansible_winrm_operation_timeout_sec: 1500
+        ansible_winrm_read_timeout_sec: 1800
 
     # - name: Install exe file (win_package)
     #   ansible.windows.win_package:
@@ -41,11 +41,11 @@
     #     ansible_winrm_operation_timeout_sec: 1500
     #     ansible_winrm_read_timeout_sec: 1800
 
-    - name: Install exe file (command)
-      ansible.windows.win_command:
-        cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
-        chdir: C:\Windows\TEMP
+    # - name: Install exe file (command)
+    #   ansible.windows.win_command:
+    #     cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
+    #     chdir: C:\Windows\TEMP
 
-    - name: Install exe file (powershell)
-      ansible.windows.win_powershell:
-        script: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
+    # - name: Install exe file (powershell)
+    #   ansible.windows.win_powershell:
+    #     script: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
