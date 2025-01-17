@@ -46,6 +46,6 @@
     #     cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
     #     chdir: C:\Windows\TEMP
 
-    # - name: Install exe file (powershell)
-    #   ansible.windows.win_powershell:
-    #     script: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
+    - name: Install exe file (powershell)
+      ansible.windows.win_powershell:
+        script: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole.exe -s'
