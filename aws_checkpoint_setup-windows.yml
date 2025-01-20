@@ -29,40 +29,40 @@
         remote_src: False
         force: True
 
-    - name: Install WinRAR with chocolatey
-      chocolatey.chocolatey.win_chocolatey:
-        name: WinRAR
-        state: present
-
-    - name: dir temp
+    - name: Dir C:\Windows\Temp\ folder
       ansible.windows.win_shell: dir
       args:
         chdir: 'C:\Windows\Temp'
         executable: cmd
 
-    - name: dir program files - winrar
+    - name: Install WinRAR with chocolatey
+      chocolatey.chocolatey.win_chocolatey:
+        name: WinRAR
+        state: present
+
+    - name: Dir C:\Program files\WinRAR folder
       args:
       ansible.windows.win_shell: dir
       args:
         chdir: 'C:\Program files\WinRAR'
         executable: cmd
 
-    - name: Extract from exe file
+    - name: Extract files from exe installer package
       ansible.windows.win_command:
         cmd: "\"C:\\Program Files\\WinRAR\\WinRAR.exe\" x {{ smart_console_installer }}.exe {{ smart_console_installer }}\\ -IBCK"
         chdir: 'C:\Windows\Temp'
 
-    - name: Install vcredist_x86.exe file (command)
+    - name: Install VC++ from vcredist_x86.exe file
       ansible.windows.win_command:
         cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11\vcredist_x86.exe /s"
         chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11"
 
-    - name: Install vc_redist.x86_vs2017.exe file (command)
+    - name: Install VC++ from vc_redist.x86_vs2017.exe file
       ansible.windows.win_command:
         cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc17\\vc_redist.x86_vs2017.exe /s"
         chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc17"
 
-    - name: Install SmartConsole.exe file (command)
+    - name: Install SmartConsole from SmartConsole.exe file
       ansible.windows.win_command:
         cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\SmartConsole.exe /s"
         chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\"
