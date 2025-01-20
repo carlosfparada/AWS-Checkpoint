@@ -56,7 +56,7 @@
         #cmd: 'start /wait "C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe -IBCK'
         #cmd: '"C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe Check_Point_R81.20_T631_SmartConsole\ -IBCK'
         argv: 
-          - '"C:\Program Files\WinRAR\WinRAR.exe"'
+          - 'C:\Program Files\WinRAR\WinRAR.exe'
           - x
           - Check_Point_R81.20_T631_SmartConsole.exe 
           - Check_Point_R81.20_T631_SmartConsole\
