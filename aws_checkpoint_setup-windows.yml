@@ -68,7 +68,7 @@
       
     - name: Install vcredist_x86.exe file (command)
       ansible.windows.win_command:
-        cmd: 'C:\Windows\Temp\ee\Check_Point_R81.20_T631_SmartConsole\vc17\vcredist_x86.exe /s'
+        cmd: 'C:\Windows\Temp\ee\Check_Point_R81.20_T631_SmartConsole\vc11\vcredist_x86.exe /s'
         chdir: 'C:\Windows\Temp\ee\Check_Point_R81.20_T631_SmartConsole\vc11'
       ignore_errors: true
 
