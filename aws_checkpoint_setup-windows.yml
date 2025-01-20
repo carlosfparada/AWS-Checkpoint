@@ -40,6 +40,7 @@
     - name: Sleep for 10 additional seconds and continue
       ansible.builtin.wait_for:
         timeout: 10
+      delegate_to: localhost
       ignore_errors: true
 
     - name: dir temp
