@@ -53,7 +53,6 @@
         #cmd: 'start /wait "C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe -IBCK'
         cmd: '"C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe Check_Point_R81.20_T631_SmartConsole\ -IBCK'
         chdir: 'C:\Windows\Temp'
-      ignore_errors: true
 
     # - name: Sleep for 10 additional seconds and continue
     #   ansible.builtin.wait_for:
@@ -67,19 +66,16 @@
       ansible.windows.win_command:
         cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc11\vcredist_x86.exe /s'
         chdir: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc11'
-      ignore_errors: true
 
     - name: Install vc_redist.x86_vs2017.exe file (command)
       ansible.windows.win_command:
         cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc17\vc_redist.x86_vs2017.exe /s'
         chdir: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc17'
-      ignore_errors: true
 
     - name: Install SmartConsole.exe file (command)
       ansible.windows.win_command:
         cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\SmartConsole.exe /s'
         chdir: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\'
-      ignore_errors: true
 
     # - name: Install exe file (win_package)
     #   ansible.windows.win_package:
