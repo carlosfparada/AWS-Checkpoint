@@ -15,7 +15,7 @@
   vars_files: vars/windows.yml
   tasks:
     - name: Check SmartConsole exe in the EE
-      ansible.builtin.command: ls -la "/tmp/{{ smart_console_exe }}"
+      ansible.builtin.command: ls -la "/tmp/{{ smart_console_installer }}.exe"
       register: myls
       delegate_to: localhost
       vars:
@@ -24,61 +24,45 @@
 
     - name: Copying from Ansible to Windows local disk
       ansible.windows.win_copy:
-        src: "/tmp/{{ smart_console_exe }}"
+        src: "/tmp/{{ smart_console_installer }}.exe"
         dest: 'C:\Windows\Temp\'
         remote_src: False
         force: True
 
     - name: Install WinRAR with chocolatey
       chocolatey.chocolatey.win_chocolatey:
-        name: winrar
+        name: WinRAR
         state: present
 
     - name: dir temp
       ansible.windows.win_shell: dir
       args:
-        chdir: 'C:\Windows\Temp\'
+        chdir: 'C:\Windows\Temp'
         executable: cmd
 
     - name: dir program files - winrar
       args:
       ansible.windows.win_shell: dir
       args:
-        chdir: 'C:\Program files\WinRAR\'
+        chdir: 'C:\Program files\WinRAR'
         executable: cmd
-      ignore_errors: true
 
     - name: Extract from exe file
       ansible.windows.win_command:
-        #cmd: 'start /wait "C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe -IBCK'
-        cmd: '"C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe Check_Point_R81.20_T631_SmartConsole\ -IBCK'
+        cmd: "\"C:\\Program Files\\WinRAR\\WinRAR.exe\" x {{ smart_console_installer }}.exe {{ smart_console_installer }}\\ -IBCK"
         chdir: 'C:\Windows\Temp'
 
-    # - name: Sleep for 10 additional seconds and continue
-    #   ansible.builtin.wait_for:
-    #     timeout: 10
-    #   delegate_to: localhost
-    #   vars:
-    #     ansible_connection: local
-    #     ansible_port: 22
-      
     - name: Install vcredist_x86.exe file (command)
       ansible.windows.win_command:
-        cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc11\vcredist_x86.exe /s'
-        chdir: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc11'
+        cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11\vcredist_x86.exe /s"
+        chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11"
 
     - name: Install vc_redist.x86_vs2017.exe file (command)
       ansible.windows.win_command:
-        cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc17\vc_redist.x86_vs2017.exe /s'
-        chdir: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc17'
+        cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc17\\vc_redist.x86_vs2017.exe /s"
+        chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc17"
 
     - name: Install SmartConsole.exe file (command)
       ansible.windows.win_command:
-        cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\SmartConsole.exe /s'
-        chdir: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\'
-
-    # - name: Install exe file (win_package)
-    #   ansible.windows.win_package:
-    #     path: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\SmartConsole.exe'
-    #     arguments: '/s'
-    #     state: present
+        cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\SmartConsole.exe /s"
+        chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\"
