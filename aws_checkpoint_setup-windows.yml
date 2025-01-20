@@ -45,32 +45,31 @@
         ansible_connection: local
         ansible_port: 22
 
-    - name: Run a command under a non-Powershell interpreter (cmd in this case)
-      ansible.windows.win_shell: echo %HOMEDIR%
-      args:
-        executable: cmd
-      register: homedir_out
-
     - name: dir temp
       ansible.windows.win_shell: dir
+      args:
         chdir: 'C:\Windows\Temp\'
         executable: cmd
       ignore_errors: true
 
     - name: dir temp
       ansible.windows.win_shell: dir
+      args:
         chdir: 'C:\Windows\Temp\'
         executable: cmd
       ignore_errors: true
 
     - name: dir program files
       ansible.windows.win_shell: dir
+      args:
         chdir: 'C:\Program files\'
         executable: cmd
       ignore_errors: true
 
     - name: dir program files - winrar
+      args:
       ansible.windows.win_shell: dir
+      args:
         chdir: 'C:\Program files\WinRAR\'
         executable: cmd
       ignore_errors: true
