@@ -37,34 +37,11 @@
     #     name: winrar
     #     state: present
 
-    # - name: Sleep for 10 additional seconds and continue
-    #   ansible.builtin.wait_for:
-    #     timeout: 10
-    #   delegate_to: localhost
-    #   vars:
-    #     ansible_connection: local
-    #     ansible_port: 22
-
     # - name: dir temp
     #   ansible.windows.win_shell: dir
     #   args:
     #     chdir: 'C:\Windows\Temp\'
     #     executable: cmd
-    #   ignore_errors: true
-
-    # - name: dir temp
-    #   ansible.windows.win_shell: dir
-    #   args:
-    #     chdir: 'C:\Windows\Temp\'
-    #     executable: cmd
-    #   ignore_errors: true
-
-    # - name: dir program files
-    #   ansible.windows.win_shell: dir
-    #   args:
-    #     chdir: 'C:\Program files\'
-    #     executable: cmd
-    #   ignore_errors: true
 
     # - name: dir program files - winrar
     #   args:
