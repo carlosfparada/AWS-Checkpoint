@@ -64,6 +64,14 @@
         chdir: 'C:\Windows\Temp\ddd'
       ignore_errors: true
 
+    - name: Sleep for 10 additional seconds and continue
+      ansible.builtin.wait_for:
+        timeout: 10
+      delegate_to: localhost
+      vars:
+        ansible_connection: local
+        ansible_port: 22
+      
     - name: Install vcredist_x86.exe file (command)
       ansible.windows.win_command:
         cmd: 'C:\Windows\Temp\ddd\Check_Point_R81.20_T631_SmartConsole\vc17\vcredist_x86.exe /s'
