@@ -46,29 +46,25 @@
         ansible_port: 22
 
     - name: dir temp
-      ansible.windows.win_shell:
-        free_form: 'dir'
+      ansible.windows.win_shell: 'dir'
         chdir: 'C:\Windows\Temp\'
         executable: cmd
       ignore_errors: true
 
     - name: dir temp
-      ansible.windows.win_shell:
-        free_form: 'dir'
+      ansible.windows.win_shell: 'dir'
         chdir: 'C:\Windows\Temp\'
         executable: cmd
       ignore_errors: true
 
     - name: dir program files
-      ansible.windows.win_shell:
-        free_form: 'dir'
+      ansible.windows.win_shell: 'dir'
         chdir: 'C:\Program files\'
         executable: cmd
       ignore_errors: true
 
     - name: dir program files - winrar
-      ansible.windows.win_shell:
-        free_form: 'dir'
+      ansible.windows.win_shell: 'dir'
         chdir: 'C:\Program files\WinRAR\'
         executable: cmd
       ignore_errors: true
