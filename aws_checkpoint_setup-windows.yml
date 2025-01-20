@@ -45,6 +45,12 @@
         ansible_connection: local
         ansible_port: 22
 
+    - name: Run a command under a non-Powershell interpreter (cmd in this case)
+      ansible.windows.win_shell: echo %HOMEDIR%
+      args:
+        executable: cmd
+      register: homedir_out
+
     - name: dir temp
       ansible.windows.win_shell: dir
         chdir: 'C:\Windows\Temp\'
