@@ -58,13 +58,13 @@
         chdir: 'C:\Windows\Temp'
       ignore_errors: true
 
-    - name: Sleep for 10 additional seconds and continue
-      ansible.builtin.wait_for:
-        timeout: 10
-      delegate_to: localhost
-      vars:
-        ansible_connection: local
-        ansible_port: 22
+    # - name: Sleep for 10 additional seconds and continue
+    #   ansible.builtin.wait_for:
+    #     timeout: 10
+    #   delegate_to: localhost
+    #   vars:
+    #     ansible_connection: local
+    #     ansible_port: 22
       
     - name: Install vcredist_x86.exe file (command)
       ansible.windows.win_command:
