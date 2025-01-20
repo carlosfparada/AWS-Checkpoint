@@ -42,6 +42,21 @@
         timeout: 10
       delegate_to: localhost
 
+    - name: dir temp
+      ansible.windows.win_command:
+        cmd: 'dir'
+        chdir: C:\Windows\Temp\
+
+    - name: dir program files
+      ansible.windows.win_command:
+        cmd: 'dir'
+        chdir: 'C:\Program files\'
+
+    - name: dir program files - winrar
+      ansible.windows.win_command:
+        cmd: 'dir'
+        chdir: 'C:\Program files\WinRAR\'
+
     - name: Extract from exe file
       ansible.windows.win_command:
         cmd: 'start /wait "C:\Program Files\WinRAR\WinRAR.exe" x Check_Point_R81.20_T631_SmartConsole.exe -IBCK'
