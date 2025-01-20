@@ -32,10 +32,10 @@
     #   #   ansible_winrm_operation_timeout_sec: 1500
     #   #   ansible_winrm_read_timeout_sec: 1800
 
-    - name: Install WinRAR with chocolatey
-      chocolatey.chocolatey.win_chocolatey:
-        name: winrar
-        state: present
+    # - name: Install WinRAR with chocolatey
+    #   chocolatey.chocolatey.win_chocolatey:
+    #     name: winrar
+    #     state: present
 
     # - name: Sleep for 10 additional seconds and continue
     #   ansible.builtin.wait_for:
