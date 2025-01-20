@@ -22,34 +22,31 @@
         ansible_connection: local
         ansible_port: 22
 
-    # - name: Copying from Ansible to Windows local disk
-    #   ansible.windows.win_copy:
-    #     src: "/tmp/{{ smart_console_exe }}"
-    #     dest: 'C:\Windows\Temp\'
-    #     remote_src: False
-    #     force: True
-    #   # vars:
-    #   #   ansible_winrm_operation_timeout_sec: 1500
-    #   #   ansible_winrm_read_timeout_sec: 1800
+    - name: Copying from Ansible to Windows local disk
+      ansible.windows.win_copy:
+        src: "/tmp/{{ smart_console_exe }}"
+        dest: 'C:\Windows\Temp\'
+        remote_src: False
+        force: True
 
-    # - name: Install WinRAR with chocolatey
-    #   chocolatey.chocolatey.win_chocolatey:
-    #     name: winrar
-    #     state: present
+    - name: Install WinRAR with chocolatey
+      chocolatey.chocolatey.win_chocolatey:
+        name: winrar
+        state: present
 
-    # - name: dir temp
-    #   ansible.windows.win_shell: dir
-    #   args:
-    #     chdir: 'C:\Windows\Temp\'
-    #     executable: cmd
+    - name: dir temp
+      ansible.windows.win_shell: dir
+      args:
+        chdir: 'C:\Windows\Temp\'
+        executable: cmd
 
-    # - name: dir program files - winrar
-    #   args:
-    #   ansible.windows.win_shell: dir
-    #   args:
-    #     chdir: 'C:\Program files\WinRAR\'
-    #     executable: cmd
-    #   ignore_errors: true
+    - name: dir program files - winrar
+      args:
+      ansible.windows.win_shell: dir
+      args:
+        chdir: 'C:\Program files\WinRAR\'
+        executable: cmd
+      ignore_errors: true
 
     - name: Extract from exe file
       ansible.windows.win_command:
