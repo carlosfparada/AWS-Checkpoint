@@ -44,7 +44,7 @@
     - name: dir temp
       ansible.windows.win_command:
         cmd: 'dir'
-        chdir: C:\Windows\Temp\
+        chdir: 'C:\Windows\Temp\'
 
     - name: dir program files
       ansible.windows.win_command:
