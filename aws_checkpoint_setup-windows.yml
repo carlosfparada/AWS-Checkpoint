@@ -55,7 +55,7 @@
 
     - name: Install VC++ from vcredist_x86.exe file
       ansible.windows.win_command:
-        cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11\vcredist_x86.exe /s"
+        cmd: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11\\vcredist_x86.exe /s"
         chdir: "C:\\Windows\\Temp\\{{ smart_console_installer }}\\vc11"
 
     - name: Install VC++ from vc_redist.x86_vs2017.exe file
