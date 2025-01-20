@@ -61,13 +61,13 @@
     - name: Install vcredist_x86.exe file (command)
       ansible.windows.win_command:
         cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc17\vcredist_x86.exe /s'
-        chdir: 'C:\Windows\Temp\vc11\aa'
+        chdir: 'C:\Windows\Temp\aa\vc11'
       ignore_errors: true
 
     - name: Install vc_redist.x86_vs2017.exe file (command)
       ansible.windows.win_command:
         cmd: 'C:\Windows\Temp\Check_Point_R81.20_T631_SmartConsole\vc17\vc_redist.x86_vs2017.exe /s'
-        chdir: 'C:\Windows\Temp\vc17\aa'
+        chdir: 'C:\Windows\Temp\aa\vc17'
       ignore_errors: true
 
     - name: Install SmartConsole.exe file (command)
