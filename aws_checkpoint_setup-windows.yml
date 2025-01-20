@@ -46,7 +46,7 @@
         ansible_port: 22
 
     - name: dir temp
-      ansible.windows.win_shell: 'dir'
+      ansible.windows.win_shell: dir
         chdir: 'C:\Windows\Temp\'
         executable: cmd
       ignore_errors: true
