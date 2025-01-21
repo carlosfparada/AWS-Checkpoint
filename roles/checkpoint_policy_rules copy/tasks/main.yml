@@ -1,0 +1,85 @@
+---
+
+# Gather Facts
+- name: Query host objects
+  check_point.mgmt.cp_mgmt_host_facts:
+    details_level: full
+    #details_level: standard
+  ignore_errors: yes
+  register: _hosts
+
+- name: Query default access rule
+  check_point.mgmt.cp_mgmt_access_rule_facts:
+    details_level: full
+    #details_level: standard
+    layer: "{{layer}}"
+    name: "Cleanup rule"
+  ignore_errors: yes
+  register: _accessrules
+
+- name: Query access rules
+  check_point.mgmt.cp_mgmt_access_rule_facts:
+    details_level: full
+    #details_level: standard
+    layer: "{{layer}}"
+    name: "{{item.name}}"
+  loop: "{{checkpoint_fw_rules}}"
+  ignore_errors: yes
+  register: _accessrules
+
+# Check access rules  (CLI)
+# mgmt login user admin
+# mgmt_cli show access-rule layer Network name Rule_B
+
+# - name: Query all rulebase
+#   check_point.mgmt.cp_mgmt_run_script:
+#     script_name: "Fetch all Access Rules"
+#     # script: ls -l /
+#     # script: "mgmt_cli -f json show access-rulebase name Network"
+#     script: |
+#       #! /bin/bash
+#       mgmt_cli show access-rulebase name Network
+#     targets:
+#     - i-0001bcfe6c8f1d80a
+
+  register: access_rulebase
+
+# Policy Rules
+- name: Create source hosts objects
+  check_point.mgmt.cp_mgmt_host:
+    name: "{{item.1.name}}"
+    state: present
+    ip_address: "{{item.1.ipv4}}"
+    ignore_warnings: true
+    auto_publish_session: yes
+  with_subelements:
+  - "{{checkpoint_fw_rules}}"
+  - src.addresses
+
+- name: Create destination hosts objects
+  check_point.mgmt.cp_mgmt_host:
+    name: "{{item.1.name}}"
+    state: present
+    ip_address: "{{item.1.ipv4}}"
+    ignore_warnings: true
+    auto_publish_session: yes
+  with_subelements:
+  - "{{checkpoint_fw_rules}}"
+  - dest.addresses
+
+- name: Create access rule
+  check_point.mgmt.cp_mgmt_access_rule:
+    layer: "{{layer}}"
+    state: present
+    position: 1
+    name: "{{item.name}}"
+    source: "{{item.src.addresses | map(attribute='name') | list}}"
+    destination: "{{item.dest.addresses | map(attribute='name') | list}}"
+    service: "{{item.services}}"
+    action: "{{item.rule.action}}"
+    track:
+      type: log
+    auto_publish_session: yes
+  loop: "{{checkpoint_fw_rules}}"
+
+

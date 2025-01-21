@@ -1,0 +1,21 @@
+---
+
+- name: Get nodes from Inventory and add to Groups
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - include_role: 
+      name: utils_hosts_aws
+
+
+# Check access rules  (CLI)
+# mgmt login user admin
+# mgmt_cli show access-rule layer Network name Rule_B
+- name: Firewalls Checkpoint
+  hosts: "{{ groups['checkpoint'][0] }}"
+  connection: httpapi
+  gather_facts: no
+  vars_files: vars/main.yml
+  roles:
+    - checkpoint_policy_rules_day2
