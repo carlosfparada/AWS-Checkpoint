@@ -41,8 +41,7 @@
 #       mgmt_cli show access-rulebase name Network
 #     targets:
 #     - i-0001bcfe6c8f1d80a
-
-  register: access_rulebase
+#   register: access_rulebase
 
 # Policy Rules
 - name: Create source hosts objects
