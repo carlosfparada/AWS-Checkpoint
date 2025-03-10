@@ -29,6 +29,7 @@ ec2_sg_openports:
   - 22
   - 3389
   - 5985
+  - 5986  
   - 18190
   - 18264
   - 19009
@@ -38,7 +39,7 @@ ec2_sg_openports:
 ec2_ckp_image_id: ami-00b38ce3072e20285
 ec2_ckp_image_name: "Check Point CloudGuard IaaS PAYG-NGTP R81.20-634.1725-5c2a3811-4da1-49e0-a2f9-b9a369548106"
 # Flavour 
-ec2_ckp_flavor_name: c5.large
+ec2_ckp_flavor_name: c6in.xlarge #c5.large
 # Disk
 # ec2_ckp_disk_size: 20
 # ec2_ckp_ebs_name: /dev/sda1
@@ -61,3 +62,5 @@ ec2_win_key_name: "KeyPair-Virginia"
 # Instance
 ec2_win_instance_name: windows-1
 
+# Windows password
+windows_password: "{{ ansible_password }}"

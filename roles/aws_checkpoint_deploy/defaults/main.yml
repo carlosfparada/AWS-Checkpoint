@@ -63,4 +63,4 @@ ec2_win_key_name: "KeyPair-Virginia"
 ec2_win_instance_name: windows-1
 
 # Windows password
-windows_password: 'Admin123$%&'
+windows_password: "{{ ansible_password }}"
