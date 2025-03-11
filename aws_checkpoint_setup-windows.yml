@@ -30,11 +30,11 @@
     #     remote_src: False
     #     force: True
 
-    - name: Dir C:\Windows\Temp\ folder
-      ansible.windows.win_shell: dir
-      args:
-        chdir: 'C:\Windows\Temp'
-        executable: cmd
+    # - name: Dir C:\Windows\Temp\ folder
+    #   ansible.windows.win_shell: dir
+    #   args:
+    #     chdir: 'C:\Windows\Temp'
+    #     executable: cmd
 
     - name: Install WinRAR with chocolatey
       chocolatey.chocolatey.win_chocolatey:
