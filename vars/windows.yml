@@ -1,12 +1,12 @@
-ansible_connection: winrm
-ansible_port: 5986
-ansible_winrm_transport: ntlm
-#ansible_winrm_transport: basic
-ansible_winrm_server_cert_validation: ignore
+# ansible_connection: winrm
+# ansible_port: 5986
+# ansible_winrm_transport: ntlm
+# #ansible_winrm_transport: basic
+# ansible_winrm_server_cert_validation: ignore
 
-# ansible_connection: psrp
-# #ansible_port: 5986
-# ansible_psrp_cert_validation: ignore
-# ansible_psrp_protocol: http
+ansible_connection: psrp
+#ansible_port: 5986
+ansible_psrp_cert_validation: ignore
+ansible_psrp_protocol: http
 
 smart_console_installer: "Check_Point_R81.20_T631_SmartConsole" 
