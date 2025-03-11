@@ -23,12 +23,12 @@
     #     ansible_connection: local
     #     ansible_port: 22
 
-    - name: Copying from Ansible to Windows local disk
-      ansible.windows.win_copy:
-        src: "/tmp/{{ smart_console_installer }}.exe"
-        dest: 'C:\Windows\Temp\'
-        remote_src: False
-        force: True
+    # - name: Copying from Ansible to Windows local disk
+    #   ansible.windows.win_copy:
+    #     src: "/tmp/{{ smart_console_installer }}.exe"
+    #     dest: 'C:\Windows\Temp\'
+    #     remote_src: False
+    #     force: True
 
     - name: Dir C:\Windows\Temp\ folder
       ansible.windows.win_shell: dir
