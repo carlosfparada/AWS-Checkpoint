@@ -4,8 +4,8 @@
 # ansible_winrm_server_cert_validation: ignore
 
 ansible_connection: psrp
-#ansible_port: 5986
+ansible_port: 5986
 ansible_psrp_cert_validation: ignore
-ansible_psrp_protocol: http
+ansible_psrp_protocol: https
 
 smart_console_installer: "Check_Point_R81.20_T631_SmartConsole" 
