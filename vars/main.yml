@@ -63,10 +63,10 @@ ec2_win_key_name: "KeyPair-Virginia"
 ec2_win_instance_name: windows-1
 
 # New Password Checkpoint
-new_password: "Admin123$%&"
+new_password: "{{ ansible_password }}"
 
 # Windows password
-windows_password: 'Admin123$%&'
+windows_password: "{{ ansible_password }}"
 
 # Checkpoint
 ansible_network_os: check_point.mgmt.checkpoint
