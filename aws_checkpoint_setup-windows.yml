@@ -36,10 +36,10 @@
         chdir: 'C:\Windows\Temp'
         executable: cmd
 
-    - name: Install WinRAR with chocolatey
-      chocolatey.chocolatey.win_chocolatey:
-        name: WinRAR
-        state: present
+    # - name: Install WinRAR with chocolatey
+    #   chocolatey.chocolatey.win_chocolatey:
+    #     name: WinRAR
+    #     state: present
 
     - name: Dir C:\Program files\WinRAR folder
       args:
