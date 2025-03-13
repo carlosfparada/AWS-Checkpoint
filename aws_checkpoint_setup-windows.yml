@@ -15,20 +15,20 @@
   gather_facts: no
   vars_files: vars/windows.yml
   tasks:
-    - name: Check SmartConsole exe in the EE
-      ansible.builtin.command: ls -la "/tmp/{{ smart_console_installer }}.exe"
-      register: myls
-      delegate_to: localhost
-      vars:
-        ansible_connection: local
-        ansible_port: 22
+    # - name: Check SmartConsole exe in the EE
+    #   ansible.builtin.command: ls -la "/tmp/{{ smart_console_installer }}.exe"
+    #   register: myls
+    #   delegate_to: localhost
+    #   vars:
+    #     ansible_connection: local
+    #     ansible_port: 22
 
-    - name: Copying from Ansible to Windows local disk
-      ansible.windows.win_copy:
-        src: "/tmp/{{ smart_console_installer }}.exe"
-        dest: 'C:\Windows\Temp\'
-        remote_src: False
-        force: True
+    # - name: Copying from Ansible to Windows local disk
+    #   ansible.windows.win_copy:
+    #     src: "/tmp/{{ smart_console_installer }}.exe"
+    #     dest: 'C:\Windows\Temp\'
+    #     remote_src: False
+    #     force: True
 
     - name: Dir C:\Windows\Temp\ folder
       ansible.windows.win_shell: dir
@@ -36,10 +36,10 @@
         chdir: 'C:\Windows\Temp'
         executable: cmd
 
-    - name: Install WinRAR with chocolatey
-      chocolatey.chocolatey.win_chocolatey:
-        name: WinRAR
-        state: present
+    # - name: Install WinRAR with chocolatey
+    #   chocolatey.chocolatey.win_chocolatey:
+    #     name: WinRAR
+    #     state: present
 
     - name: Dir C:\Program files\WinRAR folder
       args:
