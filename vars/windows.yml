@@ -6,6 +6,6 @@
 
 ansible_connection: psrp
 ansible_psrp_cert_validation: ignore
-ansible_psrp_protocol: https
+ansible_psrp_protocol: http
 
 smart_console_installer: "Check_Point_R81.20_T631_SmartConsole" 
