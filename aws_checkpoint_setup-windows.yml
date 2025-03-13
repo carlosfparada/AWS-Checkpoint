@@ -15,13 +15,13 @@
   gather_facts: no
   vars_files: vars/windows.yml
   tasks:
-    - name: Check SmartConsole exe in the EE
-      ansible.builtin.command: ls -la "/tmp/{{ smart_console_installer }}.exe"
-      register: myls
-      delegate_to: localhost
-      vars:
-        ansible_connection: local
-        ansible_port: 22
+    # - name: Check SmartConsole exe in the EE
+    #   ansible.builtin.command: ls -la "/tmp/{{ smart_console_installer }}.exe"
+    #   register: myls
+    #   delegate_to: localhost
+    #   vars:
+    #     ansible_connection: local
+    #     ansible_port: 22
 
     # - name: Copying from Ansible to Windows local disk
     #   ansible.windows.win_copy:
