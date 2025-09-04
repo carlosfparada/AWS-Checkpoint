@@ -50,8 +50,8 @@ ec2_ckp_instance_name: checkpoint-1
 
 # Windows - SmartConsole
 # AMI
-ec2_win_image_id: ami-05b1a50d6798f63cb
-ec2_win_image_name: "Microsoft Windows Server 2025 Full Locale English AMI provided by Amazon"
+ec2_win_image_id: ami-0efee5160a1079475
+ec2_win_image_name: "Microsoft Windows Server 2025 Base"
 # Flavour 
 ec2_win_flavor_name: t3.large
 # Disk
