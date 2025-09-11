@@ -7,7 +7,8 @@
   set_fact:
     node_name: "{{ item }}"
   loop: "{{ groups['all'] }}"
-  when: hostvars[item].tags is defined and  hostvars[item].tags.Name | regex_search("^checkpoint-(.*)$")
+  #when: hostvars[item].tags is defined and  hostvars[item].tags.Name | regex_search("^checkpoint-(.*)$")
+  when: hostvars[item].tags is defined and hostvars[item].tags.Name is match("^checkpoint-(.*)$")
 
 - name: Add checkpoint node to the checkpoint group
   add_host:
@@ -19,7 +20,8 @@
   set_fact:
     node_name: "{{ item }}"
   loop: "{{ groups['all'] }}"
-  when: hostvars[item].tags is defined and  hostvars[item].tags.Name | regex_search("^windows-(.*)$")
+  #when: hostvars[item].tags is defined and  hostvars[item].tags.Name | regex_search("^windows-(.*)$")
+  when: hostvars[item].tags is defined and hostvars[item].tags.Name is match("^windows-(.*)$")
 
 - name: Add windows node to the windows group
   add_host:
