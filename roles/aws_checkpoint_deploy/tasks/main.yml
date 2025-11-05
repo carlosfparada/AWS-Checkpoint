@@ -98,8 +98,10 @@
     key_name: "{{ ec2_ckp_key_name }}"
     region: "{{ ec2_vpc_region }}"
     vpc_subnet_id: "{{ subnet.subnet.id }}"
-    network:
-      assign_public_ip: true
+    # network:
+    #   assign_public_ip: true
+    network_interfaces:
+      - assign_public_ip: true   
     tags:
       name: "{{ ec2_ckp_instance_name }}"
     # volumes:
@@ -156,8 +158,10 @@
     key_name: "{{ ec2_win_key_name }}"
     region: "{{ ec2_vpc_region }}"
     vpc_subnet_id: "{{ subnet.subnet.id }}"
-    network:
-      assign_public_ip: true
+    # network:
+    #   assign_public_ip: true
+    network_interfaces:
+      - assign_public_ip: true         
     tags:
       name: "{{ ec2_win_instance_name }}"
     user_data: "{{ lookup('ansible.builtin.template', 'user-data.j2') }}"
