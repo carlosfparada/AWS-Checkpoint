@@ -85,6 +85,7 @@
   - name: Set admin grub2 password and run config system (First Time Wizard)
     ansible.builtin.expect:
       command: "ssh -o StrictHostKeyChecking=no -i /tmp/private-key.pem admin@{{ groups['checkpoint'][0] }}"
+      timeout: 1800
       # echo: true
       responses:
         ".*Expert.*":
