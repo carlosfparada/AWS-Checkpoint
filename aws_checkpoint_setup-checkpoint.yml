@@ -133,7 +133,8 @@
           - y
     no_log: false # hide passwords on logs
     delegate_to: localhost
-    ignore_errors: true
+    register: result
+    failed_when: result.rc != 0 and result.rc != 255
 
   - name: Sleep for 10 additional seconds and continue
     ansible.builtin.wait_for:
